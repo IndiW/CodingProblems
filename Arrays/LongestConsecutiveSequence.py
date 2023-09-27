@@ -15,17 +15,19 @@ Output: 9
 '''
 
 def longestConsecutive(nums) -> int:
-    unique = set(nums)
     longest = 0
+    unique = set(nums)
+
     for n in nums:
-        curr = n
-        currLength = 1
-        while (curr + 1) in unique:
-            currLength += 1
-            curr += 1
-        longest = max(longest, currLength)
-
-
+        # check if we're at the start of the possible sequence
+        if n - 1 not in unique:
+            curr = n
+            currentSequence = 1
+            while curr + 1 in unique:
+                curr += 1
+                currentSequence += 1
+            longest = max(longest, currentSequence)
+    
     return longest
 
 
