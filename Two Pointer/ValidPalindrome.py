@@ -30,10 +30,27 @@ Since an empty string reads the same forward and backward, it is a palindrome.
 def solution(s):
     normalized = []
     for c in s:
-        if c.isalpha():
+        if c.isalnum():
             normalized.append(c.lower())   
 
     return normalized == normalized[::-1]   
 
+
+def twoPointerSolution(s):
+    start = 0
+    end = len(s) - 1
+
+    while start < end:
+        while not s[start].isalnum() and start < end:
+            start += 1
+        while not s[end].isalnum() and start < end:
+            end -= 1
+        
+        if s[start].lower() != s[end].lower():
+            return False
+        start += 1
+        end -= 1
+    
+    return True
 
 print(solution("A man, a plan, a canal: Panama") == True)
