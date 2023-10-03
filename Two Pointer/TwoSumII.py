@@ -31,11 +31,15 @@ Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We ret
 '''
 
 def solution(numbers, target):
-    d = {}
-    for i, n in enumerate(numbers):
-        if (target - n) in d:
-            return [d[target-n]+1, i+1]
+    l = 0
+    r = len(numbers) - 1
+    while l < r:
+        s = numbers[l] + numbers[r]
+        if s == target:
+            return [l+1, r+1]
+        elif s < target:
+            l += 1
         else:
-            d[n] = i
-    
-    return [-1, -1]
+            r -= 1
+
+
