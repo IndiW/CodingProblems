@@ -3,35 +3,43 @@ Given n non-negative integers representing an elevation map where the width of e
 
 '''
 
+
+# for leftMax and rightMax (the bar heights), the water level is determined by the smaller value (the shorter bar)
+# if the right bar is greater, the water level is determined by the bars going from left to right
+# if the left bar is greater, the water level is deteremined by bars going from right to left
+
 def solution(height):
+    # need at least 3 bars to fill water
     if len(height)<= 2:
         return 0
     
-    ans = 0
+    total = 0
     
-    #using two pointers i and j on indices 1 and n-1
-    i = 1
+    #pointers for current bar where we can fill water
+    i = 0
     j = len(height) - 1
     
-    #initialising leftmax to the leftmost bar and rightmax to the rightmost bar
+    # bordering bars that will limit the water
     lmax = height[0]
     rmax = height[-1]
     
-    while i <=j:
-        # check lmax and rmax for current i, j positions
+    while i <= j:
+        # update the max bar heights if we find a higher bar
         if height[i] > lmax:
             lmax = height[i]
         if height[j] > rmax:
             rmax = height[j]
         
-        #fill water upto lmax level for index i and move i to the right
+        # if the left border bar is less than the right border bar, lmax is the limiting bar. We can fill up to lmax - 
+        # at this point we know, height[l] <= lmax and height[r] <= rmax
+        # if lmax <= rmax, we compute the smallest height which at this moment would be height[l] since height[l] < lmax < rmax
         if lmax <= rmax:
-            ans += lmax - height[i]
+            total += lmax - height[i]
             i += 1
             
         #fill water upto rmax level for index j and move j to the left
         else:
-            ans += rmax - height[j]
+            total += rmax - height[j]
             j -= 1
             
-    return ans
+    return total
