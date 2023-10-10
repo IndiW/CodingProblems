@@ -17,3 +17,29 @@ class Solution:
         
         return profit
             
+
+'''
+Longest substring without repeating characters
+Given a string s, find the length of the longest
+substring
+without repeating characters.
+
+'''
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        seen = {}
+        longest = 0
+        left = 0
+        right = 0
+        while right < len(s):
+            if s[right] in seen and seen[s[right]] == True:
+                while seen[s[right]] == True:
+                    seen[s[left]] = False
+                    left += 1
+            else:
+                seen[s[right]] = True
+                right += 1
+            longest = max(longest, right - left)
+        
+        return longest
