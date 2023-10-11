@@ -60,16 +60,14 @@ class Solution:
         l = 0
         r = 0
         longest = 0
+        currMax = 0
         while r < len(s):
             if s[r] not in seen:
                 seen[s[r]] = 1
             else:
                 seen[s[r]] += 1
             
-            currMax = 0
-            for key, val in seen.items():
-                if val > currMax:
-                    currMax = val
+            currMax = max(currMax, seen[s[r]])
             
             if (r - l + 1) - currMax > k:
                 seen[s[l]] -= 1
