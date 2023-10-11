@@ -43,3 +43,39 @@ class Solution:
             longest = max(longest, right - left)
         
         return longest
+
+
+
+'''
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+
+'''
+
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        seen = {}
+        l = 0
+        r = 0
+        longest = 0
+        while r < len(s):
+            if s[r] not in seen:
+                seen[s[r]] = 1
+            else:
+                seen[s[r]] += 1
+            
+            currMax = 0
+            for key, val in seen.items():
+                if val > currMax:
+                    currMax = val
+            
+            if (r - l + 1) - currMax > k:
+                seen[s[l]] -= 1
+                l += 1
+            
+            longest = max(longest, r - l + 1)
+            r += 1
+        
+        return longest
