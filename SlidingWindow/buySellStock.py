@@ -111,3 +111,7 @@ of s such that every character in t (including duplicates) is included in the wi
 The testcases will be generated such that the answer is unique.
 
 '''
+
+class Solution:
+    def minWindow(self, s, t):
+        return
