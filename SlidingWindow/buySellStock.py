@@ -113,5 +113,52 @@ The testcases will be generated such that the answer is unique.
 '''
 
 class Solution:
-    def minWindow(self, s, t):
-        return
+    def minWindow(self, s: str, t: str) -> str:
+        if not t or not s:
+            return ""
+        left = 0 # closes current window
+        right = 0 # expands current window
+        # expand until we have all desired characters
+        # contract and save smallest window til now
+
+        dict_t = Counter(t)
+        required = len(dict_t) # number of unique characters in t
+
+        currentUnique = 0 # track how many unique characters in t are present in current window
+        window_counts = {} # keep count of unique characters in current window
+        windowLength = float('inf')
+        ansL = None
+        ansR = None
+
+        while right < len(s):
+            c = s[right]
+            window_counts[c] = window_counts.get(c, 0) + 1
+
+            if c in dict_t and window_counts[c] == dict_t[c]:
+                currentUnique += 1
+            
+            while left <= right and currentUnique == required:
+                c = s[left]
+
+                # save smallest window
+                if right - left + 1 < windowLength:
+                    windowLength = right - left + 1
+                    ansL = left
+                    ansR = right
+                
+                window_counts[c] -= 1
+                if c in dict_t and window_counts[c] < dict_t[c]:
+                    currentUnique -= 1
+                
+                left += 1
+            right += 1
+        return "" if windowLength == float("inf") else s[ansL:ansR+1]
+
+
+                
+
+
+
+
+            
+                
