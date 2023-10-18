@@ -162,6 +162,32 @@ Return the max sliding window.
 '''
 
 # Note we want the max value of each window
+#  A monotonic queue is a data structure that supports efficient insertion, deletion, and retrieval of elements in a specific order, typically in increasing or decreasing order.
+
+from collections import deque
+
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        dq = deque()
+        res = []
+
+        for i in range(k):
+            while dq and nums[i] >= nums[dq[-1]]:
+                dq.pop()
+            dq.append(i)
+
+        res.append(nums[dq[0]])
+
+        for i in range(k, len(nums)):
+            if dq and dq[0] == i - k:
+                dq.popleft()
+            while dq and nums[i] >= nums[dq[-1]]:
+                dq.pop()
+
+            dq.append(i)
+            res.append(nums[dq[0]])
+
+        return res
 
                 
 
