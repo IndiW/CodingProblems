@@ -164,6 +164,9 @@ Return the max sliding window.
 # Note we want the max value of each window
 #  A monotonic queue is a data structure that supports efficient insertion, deletion, and retrieval of elements in a specific order, typically in increasing or decreasing order.
 
+# whenever we encounter a new element x, we want to discard all elements that are less than x before adding x
+# we need to store the indices instead of the elements themselves is that we need to detect when elements leave the window due to sliding too far to the right.
+
 from collections import deque
 
 class Solution:
@@ -171,16 +174,26 @@ class Solution:
         dq = deque()
         res = []
 
+        # add indexes of max values to dq
+        # set first max value
         for i in range(k):
+            # if we see a bigger value, we remove all values in dq
             while dq and nums[i] >= nums[dq[-1]]:
                 dq.pop()
             dq.append(i)
+        
+        # at this point, dq has the index of the max value in the first window
 
+        # add first max value to result
         res.append(nums[dq[0]])
 
+        # iterate through remaining elements
         for i in range(k, len(nums)):
+            # if the left element is outside the window, we remove it
+            # since we start at k, the first element we ignore is 0
             if dq and dq[0] == i - k:
                 dq.popleft()
+            # again we find index of max value 
             while dq and nums[i] >= nums[dq[-1]]:
                 dq.pop()
 
