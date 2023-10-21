@@ -9,5 +9,19 @@ An input string is valid if:
 
 '''
 
-def solution(s):
-    stack = []
+class Solution:
+    def isValid(self, s: str) -> bool:
+        
+        stack = []
+        pairs = { '(': ')', '{': '}', '[': ']'}
+        for p in s:
+            if p in pairs:
+                stack.append(pairs[p])
+            else:
+                if not stack:
+                    return False
+                closing = stack.pop(-1)
+                if closing != p:
+                    return False
+        
+        return len(stack) == 0
