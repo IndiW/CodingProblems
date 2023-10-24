@@ -122,3 +122,8 @@ class Solution:
                 stack.append(int(s))
         
         return stack.pop()
+
+'''
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+'''
