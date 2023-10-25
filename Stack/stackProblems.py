@@ -151,3 +151,34 @@ class Solution:
                     gen(opened+1, closed, curr+"(")
             gen(0, 0, "")
             return ret
+
+
+'''
+Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+'''
+
+class Solution:
+    def dailyTemperatures(self, T: List[int]) -> List[int]:
+        # monotonic stack
+        # a stack where elements are always sorted
+        # monotonic decreasing = sorted in desending order
+        stack = []
+        # sort the indices of the days
+        ans = [0] * len(T)
+        for i, t in enumerate(T):
+            while stack and T[stack[-1]] < t:
+                top = stack.pop()
+                ans[top] = i - top
+            stack.append(i)
+        # if current day is not warmer than top of the stack, 
+        # we push it to top
+        # if current day is warmer, 
+        # the number of days is the difference between the
+        # current index, and the index on the top of the stack
+        # we keep poping offthe stack until we reach a larger element
+
+        # when we reach a colder day, we push current element
+
+        return ans
+        
