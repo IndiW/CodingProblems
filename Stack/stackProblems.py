@@ -127,3 +127,27 @@ class Solution:
 Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
 
 '''
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        if n == 0:
+            return []
+        if n == 1:
+            return ["()"]
+        else:
+
+            ret = []
+            def gen(opened, closed, curr):
+                if opened < closed:
+                    return
+                elif opened == n and closed < n:
+                    gen(opened, closed+1, curr+")") 
+                elif opened == n and closed == n:
+                    ret.append(curr)
+                    return
+                elif opened > closed:
+                    gen(opened+1, closed, curr + "(")
+                    gen(opened, closed+1, curr+")") 
+                elif opened == closed:
+                    gen(opened+1, closed, curr+"(")
+            gen(0, 0, "")
+            return ret
