@@ -226,12 +226,51 @@ class Solution:
                 continue
         return len(stack)
 
+'''
+Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
+
+Input: heights = [2,1,5,6,2,3]
+Output: 10
+Explanation: The above is a histogram where width of each bar is 1.
+The largest rectangle is shown in the red area, which has an area = 10 units.
+
+Solution:
+
+for any element heights[i], if there is an bar shorter than it to the left, we cannot extend that rectangle (at the height heights[i]) anymore so we stop considering it and check the next element
+
+when we reach a shorter bar, we can compute the area from the last bar to the shorter one. When we do this, we stop considering that last bar and start considering the new shorter bar. But we keep the index of the last bar because we can extend the rectangle width starting from there (this makes sense when you go through the stack example)
+
+
+when we find a shorter bar, we stop considering all taller bars before it until we hit a shorter bar. This is because the height is limited to the shortest bar. 
+
+When we go through the taller bars, we make sure to compute the maxArea of the bar with all larger bars to its right
+
+'''
+
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        
+        stack = []
+        maxArea = 0
+        for i, h in enumerate(heights):
+            start = i
+            while stack and stack[-1][1] > h:
+                index, height = stack.pop()
+                area = height * (i - index)
+                maxArea = max(maxArea, area)
+                start = index
+            stack.append((start, h))
+        
+        for i, h in stack:
+            maxArea = max(maxArea, h * (len(heights) - i))
+            
+        return maxArea
+
+
 
 
             
-            
         
 
         
 
-        
