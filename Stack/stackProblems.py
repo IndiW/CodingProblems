@@ -197,3 +197,41 @@ If a car catches up to a car fleet right at the destination point, it will still
 Return the number of car fleets that will arrive at the destination.
 
 '''
+
+class Solution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        positions = sorted(zip(position, speed))
+        stack = []
+        # reverse order would go from closest to furthest
+        for pos, vel in positions[::-1]:
+            dist = target - pos
+            time = dist / vel #time to travel remaining distance
+            if not stack: # first car
+                # add to fleet
+                stack.append(time)
+            elif time > stack[-1]: 
+                '''
+                if the time it takes for the next car
+                to reach the target is greater than 
+                the car in front, it won't join 
+                the 'car in front's fleet
+                '''
+                stack.append(time)
+            
+            else:
+                # if the time is less than the car in front, 
+                # the car behind is faster
+                # thus it gets blocked by car in front
+                # thus it joins that fleet
+                continue
+        return len(stack)
+
+
+
+            
+            
+        
+
+        
+
+        
