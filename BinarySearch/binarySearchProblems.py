@@ -149,6 +149,55 @@ Given the array nums after the possible rotation and an integer target, return t
 You must write an algorithm with O(log n) runtime complexity.
 
 '''
+
+class Solution:
+    def search(self, nums: 'List[int]', target: int) -> int:
+        if len(nums) == 1:
+            return 0 if nums[0] == target else -1
+        
+        lo = 0
+        hi = len(nums) - 1
+
+        while lo <= hi:
+            mid = lo + (hi - lo) // 2
+            if nums[mid] == target:
+                return mid
+            # for a number nums[mid]
+            # if there is a number larger than nums[mid], it would be to the right of it
+            # [1,2,3,4,5] [2,3,4,5,1] [3,4,5,1,2], [4,5,1,2,3], 
+            # [5,1,2,3,4]
+            # [4,5,6,7,0,1,2]
+            if nums[mid] >= nums[lo]:
+                # pivot is right of mid
+                if target >= nums[lo] and target < nums[mid]:
+                    hi = mid - 1
+                else:
+                    lo = mid + 1
+                
+            else:
+                # pivot is left of mid
+                if target <= nums[hi] and target > nums[mid]:
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
+
+
+        
+        return -1
+
+
+
+'''
+Design a time-based key-value data structure that can store multiple values for the same key at different time stamps and retrieve the key's value at a certain timestamp.
+
+Implement the TimeMap class:
+
+    TimeMap() Initializes the object of the data structure.
+    void set(String key, String value, int timestamp) Stores the key key with the value value at the given time timestamp.
+    String get(String key, int timestamp) Returns a value such that set was called previously, with timestamp_prev <= timestamp. If there are multiple such values, it returns the value associated with the largest timestamp_prev. If there are no values, it returns "".
+
+
+'''
             
 
         
