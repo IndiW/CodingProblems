@@ -96,6 +96,31 @@ class Solution:
             second.next, second = first, second.next
 
           
+'''
+Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        fast, slow = head, head
+        for _ in range(n): 
+            fast = fast.next
+        if not fast: 
+            # when n == len(list), the nth node from the end is actually the first node
+            return head.next
+        while fast.next: 
+            # the gap between fast and slow is n. When fast reaches the end, slow is at 1 before the node we want to remove
+            fast, slow = fast.next, slow.next
+        slow.next = slow.next.next
+        return head
+
+        
+
 
 
 
