@@ -237,3 +237,31 @@ class Solution:
             if slow == fast:
                 return True
         return False
+
+'''
+Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+
+There is only one repeated number in nums, return this repeated number.
+
+You must solve the problem without modifying the array nums and uses only constant extra space.
+'''
+
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        fast = nums[0]
+        slow = nums[0]
+        while True:
+            fast = nums[nums[fast]]
+            slow = nums[slow]
+            if fast == slow:
+                break
+        
+        # find entrance of the cycle
+        # move both pointers one step at a time
+        # the number of steps from the entrance
+        # will be the beginning of the cycle 
+        slow = nums[0]
+        while fast != slow:
+            slow = nums[slow]
+            fast = nums[fast]
+        return fast
