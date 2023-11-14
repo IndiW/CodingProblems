@@ -279,3 +279,43 @@ Implement the LRUCache class:
 The functions get and put must each run in O(1) average time complexity.
 
 '''
+
+
+
+# TODO
+
+
+'''
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
+
+Solution:
+
+A priority queue is a type of queue that arranges elements based on their priority values. Elements with higher priority values are typically retrieved before elements with lower priority values.
+When you add an element to the queue, it is inserted in a position based on its priority value
+O(log n) insert
+O(log n) delete
+'''
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+from queue import PriorityQueue
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        head = ret = ListNode(None) # new node
+        q = PriorityQueue(maxsize=len(lists))
+        for ind, node in enumerate(lists):
+            if node:
+                q.put((node.val,ind, node))
+        while q.qsize() > 0:
+            top = q.get()
+            ret.next = top[2] # node 
+            ret = ret.next 
+            if ret.next:
+                q.put((ret.next.val,top[1],ret.next))
+        return head.next
