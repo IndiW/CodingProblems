@@ -72,3 +72,34 @@ class Solution:
          
         dfs(root)
         return diameter
+
+
+
+'''
+Given a binary tree, determine if it is
+height-balanced
+.
+
+A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one
+
+'''
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+
+    def getHeight(self, node):
+        if node:
+            return max(self.getHeight(node.left), self.getHeight(node.right)) + 1
+        else:
+            return 0
+    def isBalanced(self, root: TreeNode) -> bool:       
+        if not root:
+            return True
+        else:
+            main = abs(self.getHeight(root.left) - self.getHeight(root.right)) <= 1 
+            return main and self.isBalanced(root.left) and self.isBalanced(root.right)
