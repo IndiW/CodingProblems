@@ -203,6 +203,7 @@ class Solution:
             return self.lowestCommonAncestor(root.right, p, q)
         elif p.val < root.val and q.val < root.val:
             return self.lowestCommonAncestor(root.left, p, q)
+        # below can be replaced by else: return root
         elif p.val > root.val and q.val < root.val:
             return root
         elif q.val > root.val and p.val < root.val:
