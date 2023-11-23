@@ -213,5 +213,33 @@ class Solution:
         else:
             return None
 
+'''
+Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+'''
         
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
         
+        def bfs(root):
+            res = []
+            q = [(root, 0)]
+            while q:
+                node, level = q.pop(0)
+                if node:
+                    while len(res) <= level:
+                        res.append([])
+                    res[level].append(node.val)
+                    q.append((node.left, level+1))
+                    q.append((node.right, level+1))
+            return res
+        
+        ret = bfs(root)
+        return ret
