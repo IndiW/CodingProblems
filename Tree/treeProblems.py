@@ -243,3 +243,24 @@ class Solution:
         
         ret = bfs(root)
         return ret
+
+'''
+Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+'''
+
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        if root is None:
+            return []
+        
+        rightside = []
+        
+        def helper(node: TreeNode, level: int) -> None:
+            if level == len(rightside):
+                rightside.append(node.val)
+            for child in [node.right, node.left]:
+                if child:
+                    helper(child, level + 1)
+                
+        helper(root, 0)
+        return rightside
