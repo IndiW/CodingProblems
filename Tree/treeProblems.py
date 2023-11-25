@@ -264,3 +264,40 @@ class Solution:
                 
         helper(root, 0)
         return rightside
+
+
+'''
+Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+
+Return the number of good nodes in the binary tree.
+
+'''
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        good = 0
+        def dfs(root, seen):
+            nonlocal good
+            if not root:
+                return
+            if seen <= root.val:
+                good += 1
+            new_seen = max(root.val, seen)
+            dfs(root.left, new_seen)
+            dfs(root.right, new_seen)
+
+        dfs(root, float('-inf'))
+        return good
+            
+
+
+            
+
