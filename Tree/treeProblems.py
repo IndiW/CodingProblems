@@ -370,3 +370,51 @@ class Solution:
             if not k:
                 return root.val
             root = root.right
+
+
+
+
+'''
+Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+'''
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        # preorder = node, left, right
+        # inorder = left, node, right
+        # for inorder, all elements to the left of the root val is in left subtree
+        # the next element in inorder is the next root
+        inorder_index_map = {}
+        for i, nodeVal in enumerate(inorder):
+            inorder_index_map[nodeVal] = i
+
+        preorder_index = 0
+        
+
+        def arr_to_tree(left, right):
+            nonlocal preorder_index
+            if left > right:
+                return None
+            
+            root_val = preorder[preorder_index]
+            root = TreeNode(root_val)
+
+            preorder_index += 1
+
+            left_root_val = inorder_index_map[root_val] - 1
+            right_root_val = inorder_index_map[root_val] + 1
+
+            root.left = arr_to_tree(left, left_root_val)
+            root.right = arr_to_tree(right_root_val, right)
+            return root
+
+        return arr_to_tree(0, len(preorder) - 1)
+        
+        
