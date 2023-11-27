@@ -354,3 +354,19 @@ class Solution:
         
         arr = toArr(root)
         return arr[k-1].val
+    
+# Iterative solution 
+
+class Solution:
+    def kthSmallest(self, root, k):
+        stack = []
+        
+        while True:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop() #get last element ie top of stack
+            k -= 1
+            if not k:
+                return root.val
+            root = root.right
