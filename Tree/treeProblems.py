@@ -428,3 +428,58 @@ Given the root of a binary tree, return the maximum path sum of any non-empty pa
 '''
         
         
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        
+        # scenarios:
+        # Path goes from left to root to right
+        # Path is in left
+        # Path is in right
+        # Path is root + left
+        # Path is root + right
+        # Path is just root
+
+
+        # if node children are null, the mathPath is the node.val
+        # get maxPathSum of left
+        # get maxPathSum of right
+        # we want to update the maxPath as we try all possibilities
+        # when we return the maxPath of a subtree, we can't add both children so we have to choose the max child
+        # if children are negative, we don't want to include them
+
+        res = [root.val]
+
+        def dfs(root):
+            if not root:
+                return 0
+            leftMax = dfs(root.left)
+            rightMax = dfs(root.right)
+
+            # ignore negatives
+            leftMax = max(leftMax, 0)
+            rightMax = max(rightMax, 0)
+
+            # max sum with split
+            res[0] = max(res[0],root.val + leftMax + rightMax)
+            # max sum without split
+            return root.val + max(leftMax, rightMax)
+
+        dfs(root)
+        return res[0]
+
+
+        
+
+                
+
+
+
+
+
+
