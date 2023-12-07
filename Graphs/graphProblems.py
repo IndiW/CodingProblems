@@ -82,5 +82,38 @@ class Solution:
 
 
 
+'''
+You are given an m x n binary matrix grid. An island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
 
+The area of an island is the number of cells with a value 1 in the island.
+
+Return the maximum area of an island in grid. If there is no island, return 0.
+'''
+
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        maxArea = 0
+        if not grid:
+            return 0
+
+        def bfs(x, y):
+            nonlocal maxArea
+            if x >= len(grid) or x < 0 or y >= len(grid[0]) or y < 0:
+                return 0
+            if grid[x][y] == 0:
+                return 0
+            else:
+                grid[x][y] = 0
+                area = 1
+                area += bfs(x+1,y)
+                area += bfs(x-1,y)
+                area += bfs(x,y+1)
+                area += bfs(x,y-1)
+                return area
         
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    maxArea = max(bfs(i,j), maxArea)
+        
+        return maxArea
