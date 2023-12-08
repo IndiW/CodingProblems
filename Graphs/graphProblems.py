@@ -128,3 +128,55 @@ The island receives a lot of rain, and the rain water can flow to neighboring ce
 Return a 2D list of grid coordinates result where result[i] = [ri, ci] denotes that rain water can flow from cell (ri, ci) to both the Pacific and Atlantic oceans.
 '''
 
+# not the most optimal.
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        if not heights:
+            return []
+
+        def dfs(x, y):
+            seen = {}
+            stack = [(x,y)]
+            isPacific = False
+            isAtlantic = False
+            while stack:
+              coord = stack.pop(-1)
+              if coord in seen:
+                continue
+              if coord[0] == 0 or coord[1] == 0:
+                isPacific = True
+              if coord[0] == len(heights) - 1 or coord[1] == len(heights[0]) - 1:
+                isAtlantic = True
+              
+              if isPacific and isAtlantic:
+                return [isPacific, isAtlantic]
+
+              i = coord[0]
+              j = coord[1]
+              curr = heights[i][j]
+              if i+1 <= len(heights)-1 and curr >= heights[i+1][j]:
+                stack.append((i+1,j))
+              if i-1 >= 0 and curr >= heights[i-1][j]:
+                stack.append((i-1,j))
+              if j+1 <= len(heights[0])-1 and curr >= heights[i][j+1]:
+                stack.append((i,j+1))
+              if j-1 >= 0 and curr >= heights[i][j-1]:
+                stack.append((i,j-1))
+              seen[coord] = True
+            return [isPacific, isAtlantic]
+
+
+
+
+        ret = []
+
+        for i in range(len(heights)):
+            for j in range(len(heights[0])):
+                res = dfs(i, j)
+                if res[0] and res[1]:
+                    ret.append([i, j])
+        
+        return ret
+
+
+        
