@@ -195,3 +195,5 @@ class Solution:
         def connectedToEdge(x, y):
             if board[x][y] == 'X':
                 return False
+            else:
+                return True
