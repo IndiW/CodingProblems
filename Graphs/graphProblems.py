@@ -193,7 +193,34 @@ class Solution:
         Do not return anything, modify board in-place instead.
         """
         def connectedToEdge(x, y):
-            if board[x][y] == 'X':
+            if x >= len(board) or x < 0 or y >= len(board[0]) or y < 0:
                 return False
-            else:
+            if board[x][y] == 'X':
                 return True
+            if board[x][y] == 'T':
+                return True
+            if board[x][y] == 'F':
+                return False
+            offset = [-1,1]
+            ret = True
+            board[x][y] = 'T'
+            for off in offset:
+                ret = connectedToEdge(x+off,y) and connectedToEdge(x,y+off) and ret
+            if ret:
+                return ret
+            else:
+                board[x][y] = 'F'
+                return False
+        
+
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 'O':
+                    connectedToEdge(i, j)
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 'T':
+                    board[i][j] = 'X'
+                if board[i][j] == 'F':
+                    board[i][j] = 'O'
