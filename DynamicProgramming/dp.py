@@ -48,3 +48,44 @@ You are a professional robber planning to rob houses along a street. Each house 
 
 Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
 '''
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        # base case: nums = [] => 0
+        # nums = [x] => x
+        # nums = [x,y] => max(x,y)
+        # nums = [x,y,z] => max(x+z,y)
+        # recursive: dp[i] = max(dp[0] + dp[2:], dp[1:])
+        # may have a nicer solution
+        dp = []
+        if len(nums) == 0:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        prev = nums[0]
+        prev2 = max(nums[0], nums[1])
+
+        for i in range(2, len(nums)):
+            curr = max(prev + nums[i], prev2)
+            dp.append(max(prev + nums[i], prev2))
+        
+        return dp[-1]
+
+'''
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+'''
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        def helper(nums):
+            dp1, dp2 = 0,0
+            for num in nums:
+                dp1,dp2 = dp2, max(dp1 + num, dp2)
+            return dp2
+        
+        return max(nums[0] + helper(nums[2:-1]), helper(nums[1:]))
+
+        
