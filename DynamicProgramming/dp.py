@@ -88,4 +88,10 @@ class Solution:
         
         return max(nums[0] + helper(nums[2:-1]), helper(nums[1:]))
 
-        
+
+'''
+Given a string s, return the longest
+palindromic
+substring
+in s.
+'''
