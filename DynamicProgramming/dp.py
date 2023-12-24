@@ -120,7 +120,37 @@ class Solution:
 
             
 
+'''
 
+Given a string s, return the number of palindromic substrings in it.
+
+A string is a palindrome when it reads the same backward as forward.
+
+A substring is a contiguous sequence of characters within the string
+
+'''
+
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        def findPalin(i, j):
+            count = 0
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                count += 1
+                i -= 1
+                j += 1
+            return count
+        
+        ret = 0
+        for i in range(len(s)):
+            l = r = i
+            ret += findPalin(l, r)
+
+            l = i
+            r = i + 1
+            ret += findPalin(l, r)
+        
+        return ret
+    
 
 
         
