@@ -32,3 +32,17 @@ Return true if you can reach the last index, or false otherwise.
 
  
 '''
+
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        # work backwards
+        # check if current index + jump can reach last position
+        # greedily choose left most position
+        last = len(nums) - 1
+        for i in range(last-1,-1,-1):
+            if i + nums[i] >= last:
+                last = i
+        
+        return last <= 0
+            
+            
