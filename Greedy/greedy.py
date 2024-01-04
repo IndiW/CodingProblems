@@ -59,3 +59,17 @@ Return the minimum number of jumps to reach nums[n - 1]. The test cases are gene
 '''
             
             
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        # min jumps = biggest jumps
+        # we can always reach n-1
+        
+        # for each jump, take max distance 
+        l = r = 0
+        jumps = 0
+        while r < len(nums) - 1:
+            jumps += 1
+            furthest = max([i+nums[i] for i in range(l, r+1)])
+            l, r = r+1, furthest
+        
+        return jumps
