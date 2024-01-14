@@ -62,3 +62,21 @@ You are given an n x n 2D matrix representing an image, rotate the image by 90 d
 
 You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
 '''
+
+# reverse all the arrays
+# swap diagonals
+
+
+# [1,2,3]
+# [4,5,6]
+# [7,8,9]
+
+# becomes
+
+# [3,2,1]
+# [6,5,4]
+# [9,8,7]
+
+# [7,4,1]
+# [8,5,2]
+# [9,6,3]
