@@ -44,7 +44,8 @@ class Solution:
             ret.append(path)
             return
         for i in range(len(nums)):
-            self.dfs(nums[i:], target - nums[i], path+[nums[i]], ret)
+            # nums[i:] is to skip the numbber num[i] that has been used to avoid duplication
+            self.dfs(nums[i:], target - nums[i], path+[nums[i]], ret) 
 
                 
                 
