@@ -25,3 +25,29 @@ of at least one of the chosen numbers is different.
 The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
 
 '''
+
+class Solution:
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        ret = []
+        self.dfs(candidates, target, [], ret)
+        return ret
+
+    def dfs(self, nums, target, path, ret):
+        if target < 0:
+            return
+        if target == 0:
+            ret.append(path)
+            return
+        for i in range(len(nums)):
+            self.dfs(nums[i:], target - nums[i], path+[nums[i]], ret)
+
+                
+                
+            
+            
+            
