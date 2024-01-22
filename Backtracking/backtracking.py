@@ -47,6 +47,31 @@ class Solution:
             # nums[i:] is to skip the numbber num[i] that has been used to avoid duplication
             self.dfs(nums[i:], target - nums[i], path+[nums[i]], ret) 
 
+
+
+'''
+Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+'''
+# take a value, then compute the perm of the remaining values and combine the two
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        ret = []
+        def perm(nums, curr):
+            nonlocal ret
+            if len(nums) == 0:
+                ret.append(curr)
+                return
+            for i in range(len(nums)):
+                perm(nums[:i] + nums[i+1:], curr+[nums[i]])
+        
+        perm(nums, [])
+        return ret
+
+            
+
+
+        
+
                 
                 
             
