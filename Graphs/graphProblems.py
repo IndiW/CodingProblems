@@ -192,35 +192,27 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        def connectedToEdge(x, y):
-            if x >= len(board) or x < 0 or y >= len(board[0]) or y < 0:
-                return False
-            if board[x][y] == 'X':
-                return True
-            if board[x][y] == 'T':
-                return True
-            if board[x][y] == 'F':
-                return False
-            offset = [-1,1]
-            ret = True
-            board[x][y] = 'T'
-            for off in offset:
-                ret = connectedToEdge(x+off,y) and connectedToEdge(x,y+off) and ret
-            if ret:
-                return ret
-            else:
-                board[x][y] = 'F'
-                return False
-        
+        # check the borders. Any Os connected to the corner is not surrounded
+        # all remaining Os are surrounded
 
+        def dfs(i, j):
+            if 0 <= i < len(board) and 0 <= j < len(board[0]) and board[i][j] == 'O':
+                board[i][j] = '.'
+                dfs(i+1,j)
+                dfs(i-1,j)
+                dfs(i,j+1)
+                dfs(i,j-1)
+        if not board or not board[0]:
+            return
+        for i in [0, len(board)-1]:
+            for j in range(len(board[0])):
+                dfs(i, j)
+        for i in range(len(board)):
+            for j in [0, len(board[0])-1]:
+                dfs(i,j)
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if board[i][j] == 'O':
-                    connectedToEdge(i, j)
-        
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if board[i][j] == 'T':
                     board[i][j] = 'X'
-                if board[i][j] == 'F':
+                elif board[i][j] == '.':
                     board[i][j] = 'O'
