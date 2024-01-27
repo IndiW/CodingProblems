@@ -192,16 +192,20 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        # check the borders. Any Os connected to the corner is not surrounded
-        # all remaining Os are surrounded
+        # check the borders. Any Os connected to the corner is not surrounded. We mark them as .
+        # all remaining Os are surrounded.
+        # in the end we have . and O, the . are converted to O and the Os are converted to X
 
         def dfs(i, j):
+            # mark all Os within the boundaries as .
             if 0 <= i < len(board) and 0 <= j < len(board[0]) and board[i][j] == 'O':
                 board[i][j] = '.'
                 dfs(i+1,j)
                 dfs(i-1,j)
                 dfs(i,j+1)
                 dfs(i,j-1)
+
+
         if not board or not board[0]:
             return
         for i in [0, len(board)-1]:
