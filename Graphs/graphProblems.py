@@ -220,3 +220,56 @@ class Solution:
                     board[i][j] = 'X'
                 elif board[i][j] == '.':
                     board[i][j] = 'O'
+
+
+
+'''
+You are given an m x n grid where each cell can have one of three values:
+
+    0 representing an empty cell,
+    1 representing a fresh orange, or
+    2 representing a rotten orange.
+
+Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+
+Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.
+
+'''
+
+
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        # 1. find all rotten oranges
+        # 2. dfs out from each rotten orange. Increment time on each recursion
+        # 3. check if a fresh orange exists
+        if not grid:
+            return -1
+        q = []
+        for i in range(len(grid)):
+            for j in range(len(grid[i])):
+                if grid[i][j] == 2:
+                    q.append((i+1,j,1))
+                    q.append((i-1,j,1))
+                    q.append((i,j+1,1))
+                    q.append((i,j-1,1))
+        
+        minutes = 0
+        while q:
+            i,j,k = q.pop(0)
+            if 0 <= i < len(grid) and 0 <=j < len(grid[0]):
+                if grid[i][j] == 1:
+                    grid[i][j] = 2
+                    minutes = max(minutes, k)
+                    q.append([i+1,j,k+1])
+                    q.append([i-1,j,k+1])
+                    q.append([i,j+1,k+1])
+                    q.append([i,j-1,k+1])
+        
+
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    return -1
+        
+        return minutes
+
