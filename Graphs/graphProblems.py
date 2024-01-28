@@ -273,3 +273,55 @@ class Solution:
         
         return minutes
 
+'''
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+    For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+
+Return true if you can finish all courses. Otherwise, return false.
+
+'''
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # create hash where keys are courses and values are array of 
+        # connected nodes
+        # use dfs to see if we can visit all nodes
+        # if we find cycle, we return false
+        # nodes not visited are marked as 0
+        # nodes being visited are marked as -1. if we find a -1 we foud a loop
+        # when a node is visited, we mark as 1. 
+        graph = [[] for _ in range(numCourses)]
+        visited = [0 for _ in range(numCourses)]
+
+        # add nodes to graph
+        for prereq in prerequisites:
+            x, y = prereq
+            graph[x].append(y)
+    
+
+        def dfs(i):
+            if visited[i] == 1:
+                # already visited, don't need to revisit
+                return True
+            if visited[i] == -1:
+                # a cycle exists
+                return False
+            else:
+                visited[i] = -1
+                for node in graph[i]:
+                    if not dfs(node):
+                        return False
+                visited[i] = 1
+                return True
+        
+        for course in range(numCourses):
+            if not dfs(course):
+                return False
+        
+        return True
+
+        
+                
+                    
+            
