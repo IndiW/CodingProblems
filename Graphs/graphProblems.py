@@ -324,4 +324,60 @@ class Solution:
         
                 
                     
+
+'''
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+    For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+
+Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
+
+'''
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        order = []
+        # construct graph
+        graph = [[] for _ in range(numCourses)]
+        seen = [0 for _ in range(numCourses)]
+
+        for prereq in prerequisites:
+            x, y = prereq
+            graph[x].append(y)
+        
+        # each course x in graph has an array of courses you have to take before you can take x
+
+        # for each course, check their prereqs
+        def dfs(course):
+            # if we are already doing the course, we have a loop
+            if seen[course] == -1:
+                return False
             
+            # if we've already done the course, nothing more to do
+            if seen[course] == 1:
+                return True
+            
+            # set current course to ongoing
+            seen[course] = -1
+
+            prereqs = graph[course]
+
+            for prereq in prereqs:
+                # if we can't do a prereq, return False
+                if not dfs(prereq):
+                    return False
+            # after doing all the prereqs, complete the course
+            seen[course] = 1
+            # at this stage we can do the course
+            order.append(course)
+            return True
+        
+        for course in range(numCourses):
+            if not dfs(course):
+                return []
+        
+        return order
+
+
+
+        
