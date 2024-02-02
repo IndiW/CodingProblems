@@ -390,3 +390,42 @@ Return an edge that can be removed so that the resulting graph is a tree of n no
 
 # Need to find the cycle 
 # return one edge in the cycle
+
+
+# not working
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        # need to find the cycle
+        graph = [[] for _ in range(len(edges))]
+        visited = [0 for _ in range(len(edges))]
+
+        for edge in edges:
+            x,y = edge
+            graph[x].append(y)
+    
+
+        ret = []
+        def dfs(i):
+            if visited[i] == 1:
+                return True
+            if visited[i] == -1:
+                return False
+            else:
+                visited[i] = -1
+                for node in graph[i]:
+                    if not dfs(i):
+                        ret.append([i,node])
+                visited[i] = 1
+                return True
+        
+        for i in range(len(graph)):
+            dfs(i)
+        
+        for edge in edges[::-1]:
+            if edge in ret:
+                return edge
+        return []
+
+
+
+            
