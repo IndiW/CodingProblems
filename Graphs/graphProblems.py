@@ -393,6 +393,7 @@ Return an edge that can be removed so that the resulting graph is a tree of n no
 
 
 # not working
+# try: for each edge u,v use dfs to traverse the graph and check if we can reach v from u. If we can its a duplicate
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         # need to find the cycle
