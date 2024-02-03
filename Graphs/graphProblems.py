@@ -392,40 +392,24 @@ Return an edge that can be removed so that the resulting graph is a tree of n no
 # return one edge in the cycle
 
 
-# not working
+# why does this work
 # try: for each edge u,v use dfs to traverse the graph and check if we can reach v from u. If we can its a duplicate
-class Solution:
-    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        # need to find the cycle
-        graph = [[] for _ in range(len(edges))]
-        visited = [0 for _ in range(len(edges))]
+class Solution(object):
+    def findRedundantConnection(self, edges):
+        graph = collections.defaultdict(set)
 
-        for edge in edges:
-            x,y = edge
-            graph[x].append(y)
-    
+        def dfs(source, target):
+            if source not in seen:
+                seen.add(source)
+                if source == target: return True
+                return any(dfs(nei, target) for nei in graph[source])
 
-        ret = []
-        def dfs(i):
-            if visited[i] == 1:
-                return True
-            if visited[i] == -1:
-                return False
-            else:
-                visited[i] = -1
-                for node in graph[i]:
-                    if not dfs(i):
-                        ret.append([i,node])
-                visited[i] = 1
-                return True
-        
-        for i in range(len(graph)):
-            dfs(i)
-        
-        for edge in edges[::-1]:
-            if edge in ret:
-                return edge
-        return []
+        for u, v in edges:
+            seen = set()
+            if u in graph and v in graph and dfs(u, v):
+                return u, v
+            graph[u].add(v)
+            graph[v].add(u)
 
 
 
