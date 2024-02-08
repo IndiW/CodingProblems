@@ -412,6 +412,7 @@ class Solution(object):
             graph[v].add(u)
 
 # union find is more efficient, but more complicated implementation.
+# union find is a data structure that keeps track of elements which are split into one or more disjoint sets. It has two main operations: find and union. Find returns the representative of the set that an element is in. Union merges two sets into one.
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         parent = [-1] * (len(edges) + 1)
