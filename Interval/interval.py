@@ -5,3 +5,6 @@ Insert newInterval into intervals such that intervals is still sorted in ascendi
 
 Return intervals after the insertion.
 '''
+
+# find location for interval baased on linear search
+# combine intervals if necessary by comparing start with ends
