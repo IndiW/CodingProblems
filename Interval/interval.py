@@ -35,23 +35,19 @@ Given an array of intervals where intervals[i] = [starti, endi], merge all overl
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        ret = []
-        if not intervals:
-            return []
         intervals.sort()
-        newInterval = intervals[0]
+        merged = []
         for interval in intervals:
-            if interval[1] < newInterval[0]:
-                ret.append(interval)
-            elif interval[0] > newInterval[1]:
-                ret.append(newInterval)
-                newInterval = interval
-            elif interval[1] >= newInterval[0] or interval[0] <= newInterval[1]:
-                newInterval[0] = min(interval[0], newInterval[0])
-                newInterval[1] = max(interval[1], newInterval[1])
+            # if the list of merged intervals is empty or if the current interval does not overlap with the previous, simply append it.
+            if not merged or merged[-1][-1] < interval[0]:
+                merged.append(interval)
+            else:
+                # extend the last interval
+                merged[-1][-1] = max(merged[-1][-1], interval[1])
         
-        ret.append(newInterval)
-        return ret
+        return merged
+            
+                    
             
                     
 
