@@ -96,3 +96,24 @@ class Solution:
             ret.append([distances[i][1],distances[i][2]])
         return ret
         
+
+'''
+Given an integer array nums and an integer k, return the kth largest element in the array.
+
+Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+Can you solve it without sorting?
+'''
+
+from random import randint
+import heapq
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        heapq.heapify(nums)
+        ret = heapq.nlargest(k, nums)
+        return ret[-1]
