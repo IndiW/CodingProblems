@@ -105,8 +105,7 @@ Note that it is the kth largest element in the sorted order, not the kth distinc
 Can you solve it without sorting?
 '''
 
-from random import randint
-import heapq
+import random
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         """
@@ -114,6 +113,19 @@ class Solution:
         :type k: int
         :rtype: int
         """
-        heapq.heapify(nums)
-        ret = heapq.nlargest(k, nums)
-        return ret[-1]
+        if not nums: return
+        pivot = random.choice(nums)
+        right = [x for x in nums if x > pivot]
+        mid = [x for x in nums if x == pivot]
+        left = [x for x in nums if x < pivot]
+        L, M, R = len(left), len(mid), len(right)
+
+        # [...left..., pivot, ...right...]
+        if k <= R:
+            # k is in right array
+            return self.findKthLargest(right, k)
+        elif k > R + M:
+            # k is in left array
+            return self.findKthLargest(left, k - R - M)
+        else:
+            return mid[0]
