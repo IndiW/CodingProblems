@@ -66,3 +66,33 @@ class KthLargest:
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)
 # param_1 = obj.add(val)
+    
+
+'''
+Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0).
+
+The distance between two points on the X-Y plane is the Euclidean distance (i.e., √(x1 - x2)2 + (y1 - y2)2).
+
+You may return the answer in any order. The answer is guaranteed to be unique (except for the order that it is in).
+
+'''
+# faster algorithm: put in heap and pop k times. 
+class Solution:
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        # d = sqrt((x1-x2)**2+(y1-y2)**2)
+        #   = (x1**2)+(y1**2)**0.5
+        #   => (x1**2) + (y1**2)
+        distances = []
+        # O(n)
+        for point in points:
+            distance = (point[0]**2)+(point[1]**2)
+            distances.append([distance,point[0],point[1]])
+
+        # O(nlogn)
+        distances.sort()
+        ret = []
+        # O(n)
+        for i in range(k):
+            ret.append([distances[i][1],distances[i][2]])
+        return ret
+        
