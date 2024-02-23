@@ -138,3 +138,45 @@ However, there is a non-negative integer n that represents the cooldown period b
 Return the least number of units of times that the CPU will take to finish all the given tasks.
 
 '''
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        # prioritize most frequent task
+        # cool down for n
+        # during cool down, schedule tasks in order of frequency
+        # if no tasks available, be idle
+        cooling_time = n
+        time = 0
+        task_count = Counter(tasks)
+        heap = []
+
+        # sort from least to greatest frequency
+        for taskid, freq in task_count.items():
+            heappush(heap, (-1*freq, taskid))
+        
+        while heap:
+            index = 0
+            temp = []
+            while index <= cooling_time:
+                time += 1
+                if heap:
+                    timing, taskid = heappop(heap)
+                    # this task is over at value -1
+                    if timing != -1:
+                        # add because vals are negative
+                        temp.append((timing+1, taskid))
+                # no more tasks
+                if not heap and not temp:
+                    break
+                else:
+                    index += 1
+            for item in temp:
+                heappush(heap, item)
+        
+        return time
+
+
+        
+
+            
+            
