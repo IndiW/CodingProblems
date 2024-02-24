@@ -75,6 +75,24 @@ subsets
 
 The solution set must not contain duplicate subsets. Return the solution in any order.
 '''
+
+# if duplicate, we don't need to add to all subsets, just the last subset
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        res = [[]]
+        cur = []
+        nums.sort()
+        l = 0
+        for i in range(len(nums)):
+            # avoid duplicates by checking same values in sorted list
+            if i > 0 and nums[i] == nums[i-1]:
+                cur = [item + [nums[i]] for item in cur]
+            else:
+                cur = [item + [nums[i]] for item in res]
+            res += cur
+        
+        return res
+        
             
             
             
