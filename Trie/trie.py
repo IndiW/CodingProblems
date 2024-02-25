@@ -68,3 +68,45 @@ Implement the WordDictionary class:
 
 
 '''
+
+# Can reimplemnet such that def init is a dict and isWord and we recursively add WordDictionary objects
+class WordDictionary:
+
+    def __init__(self):
+        self.trie = {}
+        
+
+    def addWord(self, word: str) -> None:
+        curr_trie = self.trie
+        for c in word:
+            if c in curr_trie:
+                curr_trie = curr_trie[c]
+            else:
+                curr_trie[c] = {}
+                curr_trie = curr_trie[c]
+        curr_trie['isWord'] = True
+
+    def search(self, word: str, trie=None) -> bool:
+        if trie == None:
+            curr_trie = self.trie
+        else:
+            curr_trie = trie
+        for i, c in enumerate(word):
+            if c == '.':
+                for ch in curr_trie.keys():
+                    if ch == 'isWord': continue
+                    if self.search(word[i+1:], curr_trie[ch]):
+                        return True
+                return False
+            if c not in curr_trie:
+                return False
+            curr_trie = curr_trie[c]
+        
+        return 'isWord' in curr_trie
+        
+
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
