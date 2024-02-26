@@ -101,4 +101,26 @@ Each number in candidates may only be used once in the combination.
 
 Note: The solution set must not contain duplicate combinations.
 '''   
+
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        ret = []
+        def dfs(can, targ, curr, start):
+            if targ == 0:
+                ret.append(curr)
+                return
+            for i in range(start, len(can)):
+                c = can[i]
+                # skip dupes
+                if i > start and can[i] == can[i-1]:
+                    continue
+
+                if c > targ: #we can do this since the array is sorted
+                    break
+                dfs(can, targ-c, curr+[c], i+1)
+        
+        dfs(candidates, target, [], 0)
+        return ret
+            
             
