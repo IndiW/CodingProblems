@@ -123,4 +123,45 @@ class Solution:
         dfs(candidates, target, [], 0)
         return ret
             
+'''
+Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+'''
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        def dfs(i,j, word, board):
+            if not word:
+                return True
+            if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]) or board[i][j] != word[0]:
+                return False
+            tmp = board[i][j] #important part, we mark the cell as visited but then we need to restore it after
+            board[i][j] = 'XX'
+            ret = []
+            for x,y in [[1,0],[-1,0],[0,1],[0,-1]]:
+                ret.append(dfs(i+x,j+y,word[1:], board))
+            board[i][j] = tmp
+            return any(ret)
+
+        if not board or not word:
+            return False
+
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if dfs(i,j, word,board[::]):
+                    return True
+        return False
+
+
+
+
+        
+    
+    
+
+    
+            
+            
             
