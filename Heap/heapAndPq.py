@@ -142,11 +142,13 @@ Return the least number of units of times that the CPU will take to finish all t
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         # prioritize most frequent task
+        # the python heap is a min heap, so we will use negative values
+    
         # cool down for n
         # during cool down, schedule tasks in order of frequency
         # if no tasks available, be idle
         cooling_time = n
-        time = 0
+        total_time = 0
         task_count = Counter(tasks)
         heap = []
 
@@ -155,25 +157,28 @@ class Solution:
             heappush(heap, (-1*freq, taskid))
         
         while heap:
-            index = 0
-            temp = []
-            while index <= cooling_time:
-                time += 1
-                if heap:
+            elapsed_time = 0
+            current_running = []
+            while elapsed_time <= cooling_time:
+                total_time += 1
+                if heap: # if more tasks to run 
                     timing, taskid = heappop(heap)
                     # this task is over at value -1
+                    # if a task isn't complete, we run it
                     if timing != -1:
-                        # add because vals are negative
-                        temp.append((timing+1, taskid))
+                        # add 1 to timing because vals are negative
+                        current_running.append((timing+1, taskid))
                 # no more tasks
-                if not heap and not temp:
+                if not heap and not current_running:
                     break
-                else:
-                    index += 1
-            for item in temp:
+                else: # no more tasks to run, we need to wait until we reach cool down
+                    elapsed_time += 1
+            
+            # we run all tasks we can. If we have more tasks, we will run them in the next cycle. Thus we push them pack to the heap
+            for item in current_running:
                 heappush(heap, item)
         
-        return time
+        return total_time
 
 
         
