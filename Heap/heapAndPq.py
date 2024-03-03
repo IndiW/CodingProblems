@@ -197,3 +197,61 @@ Implement the Twitter class:
 
 
 '''
+
+from datetime import datetime
+import heapq
+now = datetime.now()
+
+class Twitter:
+
+    def __init__(self):
+        self.tweets = {} # userId: [tweets]
+        self.users = {} # {follower: set(followees)} follower follows these followees
+        
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        time = datetime.now()
+        if userId not in self.tweets:
+            self.tweets[userId] = [] 
+        self.tweets[userId].append((time, tweetId))
+        
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        tweets = []
+        if userId not in self.users and userId not in self.tweets :
+            return
+        if userId in self.tweets:
+            for t in self.tweets[userId]:
+                heapq.heappush(tweets, t)
+        if userId in self.users:
+            for user in self.users[userId]:
+                if user not in self.tweets:
+                    continue
+                for t in self.tweets[user]:
+                    heapq.heappush(tweets, t)
+        
+        recent = heapq.nlargest(10, tweets)
+        return [tweetId for (time, tweetId) in recent]
+
+
+        
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        if followerId not in self.users:
+            self.users[followerId] = set([followeeId])
+        else:
+            self.users[followerId].add(followeeId)
+        
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        if followerId in self.users:
+            self.users[followerId].remove(followeeId)
+        
+
+
+# Your Twitter object will be instantiated and called as such:
+# obj = Twitter()
+# obj.postTweet(userId,tweetId)
+# param_2 = obj.getNewsFeed(userId)
+# obj.follow(followerId,followeeId)
+# obj.unfollow(followerId,followeeId)
