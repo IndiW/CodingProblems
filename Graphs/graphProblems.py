@@ -418,7 +418,7 @@ class Solution:
         parent = [-1] * (len(edges) + 1)
         rank = [0] * (len(edges) + 1)
 
-        def find(x):
+        def find(x): # clasic find algorithm
             if parent[x] == -1:
                 return x
             parent[x] = find(parent[x])
@@ -429,7 +429,7 @@ class Solution:
             root_y = find(y)
             if root_x == root_y:
                 return False
-            elif rank[root_x] < rank[root_y]:
+            elif rank[root_x] < rank[root_y]: # union by rank
                 parent[root_x] = root_y
                 rank[root_y] += 1
                 return True
@@ -443,6 +443,15 @@ class Solution:
                 return [x, y]
         
         raise ValueError("Illegal input.")
+    
+
+
+'''
+Two sets are called disjoint sets if they don’t have any element in common.
+Union find algorithm = disjoint set data structure 
+
+
+'''
 '''
 Add system design problems to this repo?
 
