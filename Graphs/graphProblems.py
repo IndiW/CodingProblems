@@ -419,7 +419,7 @@ class Solution:
         rank = [0] * (len(edges) + 1)
 
         def find(x): # clasic find algorithm
-            if parent[x] == -1:
+            if parent[x] == -1: # the value is its own parent
                 return x
             parent[x] = find(parent[x])
             return parent[x]
@@ -429,8 +429,8 @@ class Solution:
             root_y = find(y)
             if root_x == root_y:
                 return False
-            elif rank[root_x] < rank[root_y]: # union by rank
-                parent[root_x] = root_y
+            elif rank[root_x] < rank[root_y]: # union by rank. We add the smaller tree to the larger one to keep the trees flat
+                parent[root_x] = root_y # union by updating the parent of root_x
                 rank[root_y] += 1
                 return True
             else:
