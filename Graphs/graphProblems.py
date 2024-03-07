@@ -526,5 +526,39 @@ You may assume all tickets form at least one valid itinerary. You must use all t
 
 '''
 
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        # tickets is an array of edges in a graph
+        # need to find a path that also has smallest lexical order
+
+        # construct adjacency matrix
+        # use dfs on matrix, start at each node
+
+        graph = {}
+        for ticket in tickets:
+            if ticket[0] in graph:
+                graph[ticket[0]].append(ticket[1])
+            else:
+                graph[ticket[0]] = [ticket[1]]
+        
+        # Sort children list in descending order so that we can pop last element 
+        # instead of pop out first element which is costly operation
+        for src in graph.keys():
+            graph[src].sort(reverse=True)
+        
+        # dfs
+        stack = ["JFK"]
+        ret = []
+        while len(stack) > 0:
+            airport = stack[-1]
+            if airport in graph and len(graph[airport]) > 0:
+                stack.append(graph[airport].pop())
+            else:
+                # we reach an airport where we can't fly out of
+                # this must be the last airport
+                ret.append(stack.pop())
+        
+        return ret[::-1]
+
 
             
