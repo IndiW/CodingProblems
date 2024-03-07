@@ -533,6 +533,7 @@ class Solution:
 
         # construct adjacency matrix
         # use dfs on matrix, start at each node
+        # Hierholzer's Algorithm
 
         graph = {}
         for ticket in tickets:
