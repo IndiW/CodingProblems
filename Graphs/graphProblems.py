@@ -570,3 +570,24 @@ The cost of connecting two points [xi, yi] and [xj, yj] is the manhattan distanc
 
 Return the minimum cost to make all points connected. All points are connected if there is exactly one simple path between any two points.
 '''
+
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        # minimum spanning tree 
+        def distance(a,b):
+            return abs(a[0] - b[0]) + abs(a[1] - b[1])
+        
+        ans, number_of_points = 0, len(points)
+        seen = set() # keep track of seen vertices
+        vertices = [(0,(0,0))] # (weight, edge)
+
+        while len(seen) < number_of_points:
+            w, (u,v) = heapq.heappop(vertices) # u and v are the indexes of the verticies.
+            if v in seen: continue
+            ans += w
+            seen.add(v)
+            for i in range(number_of_points): # computing the weight of the edges from each point. Taking the smallest one using heappop 
+                if i not in seen and i != v: 
+                    heapq.heappush(vertices, (distance(points[i], points[v]),(v,i)))
+        
+        return ans
