@@ -614,11 +614,30 @@ class Solution:
             For every adjacent vertex v, if the sum of the distance value of u (from source) and weight of edge u-v, is less than the distance value of v, then update the distance value of v. 
 
         '''
-        q = []
-        # k is source, so add it first
-        q.append((0,k))
-        while len(ret) < n:
-            return 1
+        graph = {}
+        heap = [(0,k)]
+
+        for u,v,w in times:
+            if u not in graph:
+                graph[u] = [(v,w)]
+            else:
+                graph[u].append((v,w))
+        visited = set()
+        while heap:
+            time, node = heapq.heappop(heap)
+            visited.add(node)
+            if len(visited) == n:
+                return time
+            if node not in graph:
+                continue
+            for v,w in graph[node]:
+                if v not in visited:
+                    heapq.heappush(heap, (time+w,v))
+        return -1
+
+
+
+
 
 
 
