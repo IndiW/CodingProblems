@@ -177,4 +177,27 @@ class Solution:
         if dp[-1] == float('inf'):
             return -1
         return dp[-1]
+    
+'''        
+Given an integer array nums, find a
+subarray
+that has the largest product, and return the product.
+
+The test cases are generated so that the answer will fit in a 32-bit integer.
+'''
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        max_prod, min_prod, ans = nums[0], nums[0], nums[0]
+        for i in range(1, len(nums)):
+            x = max(nums[i], max_prod*nums[i], min_prod*nums[i])
+            y = min(nums[i], max_prod*nums[i], min_prod*nums[i])            
+            max_prod, min_prod = x, y
+            ans = max(max_prod, ans)
+        return ans
+                
+        
+        
+                
+        
+                
         
