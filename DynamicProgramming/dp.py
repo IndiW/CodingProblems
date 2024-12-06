@@ -19,6 +19,20 @@ class Solution:
         
         return d[-1]
 
+# Less space
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n < 3:
+            return n
+        a = 1
+        b = 2
+        for i in range(3, n+1):
+            temp = b + a
+            a = b
+            b = temp
+        
+        return b
+
 '''
 You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps.
 
