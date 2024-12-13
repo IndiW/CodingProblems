@@ -49,7 +49,7 @@ class Solution:
             prefix_mod.append(p%k) # store prefix[x]%k
 
         # use a hashmap for O(1) lookup and insertion time
-        mod_seen = { 0: -1 }
+        mod_seen = { }
         for i in range(len(nums)):
             if prefix_mod[i] in mod_seen:
                 # subarray must be at least len 2
