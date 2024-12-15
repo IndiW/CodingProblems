@@ -131,6 +131,10 @@ A subarray is a contiguous part of an array.
 
 class Solution:
     def subarraysDivByK(self, nums: List[int], k: int) -> int:
+
+        # number = divisor x quotient + remainder
+        # (prefixsum_j - prefixsum_j) & k == 0 if prefix_i%k === prefix_j%k
+        # idea: prefix_i%k === prefix_j%k
         count = 0
         seen = {0:1}
         prefix = 0
@@ -148,5 +152,71 @@ class Solution:
                 seen[mod] = 1
     
         return count
+
+
+
+'''
+930. Binary Subarrays With Sum
+
+Given a binary array nums and an integer goal, return the number of non-empty subarrays with a sum goal.
+
+A subarray is a contiguous part of the array.
+'''
+
+class Solution:
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        # sum[i:j] = prefix[j] - prefix[i] = goal
+        # prefix[i] = prefix[j] - goal
+
+
+        seen = { 0: 1}
+        count = 0
+        prefix = 0
+
+        for num in nums:
+            prefix += num
+            if (prefix - goal) in seen: # searches for prefix[i] using prefix[j] - goal
+                count += seen[prefix-goal]
+            if prefix in seen: #add prefix[i] to seen
+                seen[prefix] += 1
+            else:
+                seen[prefix] = 1
+        
+        return count
+
+
+
+
+
+'''
+525. Contiguous Array
+
+Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.
+'''
+
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        # [1,0,1]
+        # to compute prefixsum, we add 1 if its a 1, and subtract 1 if its a 0 
+        # prefix_sum = [0, 1, 0, 1]
+        # equal => (prefix[j] - prefix[i]) => j - i
+
+        ans = 0
+        seen = { 0: -1 }
+        count = 0
+        for j, num in enumerate(nums):
+            if nums[j] == 1:
+                count += 1
+            else:
+                count -= 1
+            
+            if count in seen:
+                ans = max(ans, j - seen[count]) # seen[count] = i, the last index where we see the prefix_i
+            
+            else:
+                seen[count] = j
+        
+        return ans
+            
 
 
