@@ -219,4 +219,62 @@ class Solution:
         return ans
             
 
+'''
+1658. Minimum Operations to Reduce X to Zero
+
+You are given an integer array nums and an integer x. In one operation, you can either remove the leftmost or the rightmost element from the array nums and subtract its value from x. Note that this modifies the array for future operations.
+
+Return the minimum number of operations to reduce x to exactly 0 if it is possible, otherwise, return -1.
+'''
+
+class Solution:
+    def minOperations(self, nums: List[int], x: int) -> int:
+        # just 'remove left' op
+        # i remove ops => x - sum[0:i] => prefix[i]
+        # prefix[i] == x
+
+        # right op
+        # reverse list
+        # prefix[j] == x
+        
+
+        # combine
+        # i < j
+        # prefix[i] + prefix[j] = x
+
+        sum_left = 0
+        sum_right = 0
+        seen = { 0: -1 }
+
+        # seen[y] = index, number of ops to get sum y
+        # update seen[y] if we can achieve it with less ops
+        # if x - ops_left in seen, return i + seen[x-ops_left]
+
+        # [1,1]
+        # { 1: 1, 2: 2 }
+        # { 1: 1 }
+        min_ops = float('inf')
+
+        # first check all left removal operations
+        for i in range(len(nums)):
+            sum_left += nums[i]
+            if sum_left not in seen:
+                seen[sum_left] = i + 1
+            if sum_left == x:
+                min_ops = min(min_ops, i + 1)
+        
+        # check right removal operations while taking into account if there are cooperating left removals 
+        for i in range(len(nums)):
+            sum_right += nums[len(nums)-1-i]
+            if sum_right == x:
+                min_ops = min(min_ops, i+1)
+            
+            elif x - sum_right in seen:
+                if seen[x-sum_right] < (len(nums)-i): # make sure we aren't crossing over pointers and removing an already removed value
+                    min_ops = min(seen[x-sum_right] + i+1, min_ops)
+        
+        if min_ops == float('inf'):
+            return -1
+        return min_ops
+            
 

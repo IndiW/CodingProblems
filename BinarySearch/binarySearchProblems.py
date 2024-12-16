@@ -1,4 +1,49 @@
 '''
+TEMPLATE
+
+
+def bin_search(arr):\
+    def condition(value):
+        pass
+
+    left, right = 0, len(arr)
+    while left < right:
+        mid = left + (right - left)//2
+        if condition(mid):
+            right = mid
+        else:
+            left = mid + 1
+    
+    return left
+'''
+
+'''
+278. First Bad Version
+
+You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
+
+Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
+
+You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+'''
+
+# The isBadVersion API is already defined for you.
+# def isBadVersion(version: int) -> bool:
+
+class Solution:
+    def firstBadVersion(self, n: int) -> int:
+        
+        left, right = 0, n
+        while left < right:
+            mid = left + (right - left) // 2
+            if isBadVersion(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+
+'''
 Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
 
 You must write an algorithm with O(log n) runtime complexity.
@@ -299,10 +344,46 @@ class Solution:
 
         
 
-            
-            
+'''
+1011. Capacity To Ship Packages Within D Days
+A conveyor belt has packages that must be shipped from one port to another within days days.
+
+The ith package on the conveyor belt has a weight of weights[i]. Each day, we load the ship with packages on the conveyor belt (in the order given by weights). We may not load more weight than the maximum weight capacity of the ship.
+
+Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within days days.
+'''
         
-            
+class Solution:
+    def shipWithinDays(self, weights: List[int], days: int) -> int:
+        # must retain order of weights
+
+
+        def feasible(capacity):
+            days_count = 1
+            total = 0
+            for w in weights:
+                total += w
+                if total > capacity: # reached capacity, move to next day
+                    total = w
+                    days_count += 1
+                    if days_count > days: # ran out of days
+                        return False
+            return True
+
+
+        left, right = max(weights), sum(weights)
+        # at minimum, a day needs to handle the heaviest weight ie max(weights) => left pointer
+        # at most, a day would have to handle all weights ie sum(weights) => right pointer
+
+        while left < right:
+            mid = left + (right - left) // 2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid + 1
+        
+        return left
+
 
 
 
