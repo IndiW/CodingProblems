@@ -388,5 +388,148 @@ class Solution:
 
 
 
+'''
+69. Sqrt(x)
 
 
+Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
+
+You must not use any built-in exponent function or operator.
+
+    For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
+
+
+'''
+
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x == 0:
+            return 0
+        if x <= 2:
+            return 1
+        left, right = 0, x
+        while left < right:
+            mid = left + (right - left) // 2
+            if mid*mid > x:
+                right = mid 
+            else:
+                left = mid + 1
+        
+        return left - 1
+
+
+'''
+35. Search Insert Position
+
+
+Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+'''
+
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        
+        left, right = 0, len(nums)
+
+        while left < right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return mid
+            if nums[mid] > target:
+                right = mid
+            else:
+                left = mid + 1
+        
+        return left
+
+
+
+
+'''
+410. Split Array Largest Sum
+
+
+Given an integer array nums and an integer k, split nums into k non-empty subarrays such that the largest sum of any subarray is minimized.
+
+Return the minimized largest sum of the split.
+
+A subarray is a contiguous part of the array.
+'''
+
+class Solution:
+    def splitArray(self, nums: List[int], k: int) -> int:
+
+        def condition(mid):
+            splits = 1
+            total = 0
+            for num in nums:
+                total += num
+                if total > mid:
+                    splits += 1
+                    total = num
+                    if splits > k:
+                        return False
+            return True
+        
+        left, right = max(nums), sum(nums)
+        while left < right:
+            mid = left + (right - left) // 2
+            if condition(mid):
+                right = mid
+            else:
+                left = mid + 1
+        
+        return left
+
+
+'''
+1482. Minimum Number of Days to Make m Bouquets
+
+You are given an integer array bloomDay, an integer m and an integer k.
+
+You want to make m bouquets. To make a bouquet, you need to use k adjacent flowers from the garden.
+
+The garden consists of n flowers, the ith flower will bloom in the bloomDay[i] and then can be used in exactly one bouquet.
+
+Return the minimum number of days you need to wait to be able to make m bouquets from the garden. If it is impossible to make m bouquets return -1.
+'''
+
+class Solution:
+    def minDays(self, bloomDay: List[int], m: int, k: int) -> int:
+        if len(bloomDay) < m*k:
+            return -1
+        
+        def condition(days_waited):
+            bouquets = 0
+            total_flowers = 0
+            for days_required in bloomDay:
+                if days_waited >= days_required:
+                    total_flowers += 1
+                    if total_flowers == k:
+                        bouquets += 1
+                        total_flowers = 0
+                else:
+                    total_flowers = 0
+            return bouquets >= m
+
+
+
+        left, right = 1, max(bloomDay)
+
+        while left < right:
+            mid = left + (right - left) // 2
+            if condition(mid):
+                right = mid
+            else:
+                left = mid + 1
+        
+        return left
+
+
+'''
+NOTES
+
+Amazing resource: https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/solutions/769698/python-clear-explanation-powerful-ultimate-binary-search-template-solved-many-problems
+
+'''
