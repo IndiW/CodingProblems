@@ -90,3 +90,54 @@ class Solution:
                 left += 1
         
         return ret[::-1]
+
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        ret = set()
+        nums.sort()
+
+        for i in range(len(nums)):
+            l = i+1
+            r = len(nums) - 1
+            while l < r:
+                s = nums[i] + nums[l] + nums[r]
+                if s == 0:
+                    ret.add((nums[i],nums[l],nums[r]))
+                    l += 1
+                    r -= 1
+                elif s > 0:
+                    r -= 1
+                else:
+                    l += 1
+
+        
+        return list(ret)
+
+
+        
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        # [a,b,c,d]
+    
+        # [1,a,ab,abc] # prefix sum left to right
+        # [1,d,cd,bcd] # prefix sum right to left
+
+        # [abc,abd,acd,bcd]
+
+        # [bcd,acd,abd,abc]
+
+        ans = [1] * len(nums)
+
+        left = 1
+        for i in range(len(nums)):
+            ans[i] *= left
+            left *= nums[i]
+        
+        right = 1
+        for i in range(len(nums)-1,-1,-1):
+            ans[i] *= right
+            right *= nums[i]
+        
+        return ans
+
