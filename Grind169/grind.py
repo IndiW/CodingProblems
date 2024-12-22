@@ -156,3 +156,62 @@ class Solution:
         for i in range(len(nums)):
             self.dfs(nums[i:], target-nums[i], curr_combo+[nums[i]], ret)
                 
+
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:        
+        intervals.sort()
+
+        ret = []
+        for i in range(len(intervals)):
+            if not ret or ret[-1][1] < intervals[i][0]:
+                ret.append(intervals[i])
+            else:
+                ret[-1][1] = max(ret[-1][1], intervals[i][1])
+        
+        return ret
+
+
+        
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # three pointers for 0s, 1s and 2s
+        zeros = 0
+        ones = 0
+        twos = len(nums) - 1
+
+        while ones <= twos:
+            if nums[ones] == 0:
+                # swap with last location of zero pointer
+                nums[zeros], nums[ones] = nums[ones], nums[zeros]
+                zeros += 1
+                ones += 1
+            elif nums[ones] == 1:
+                # correct spot, increment
+                ones += 1
+            else:
+                # found a two, swap with whatever is at 2s spot
+                nums[ones], nums[twos] = nums[twos], nums[ones]
+                twos -= 1
+        
+
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        # two pointers
+        # each iteration, compute max area
+        # move pointer with lower height
+
+        l, r = 0, len(height) - 1
+
+        area = 0
+        while l < r:
+            area = max(area, min(height[l], height[r])*(r-l))
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
+        
+        return area
