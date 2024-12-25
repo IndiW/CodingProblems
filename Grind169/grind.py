@@ -215,3 +215,15 @@ class Solution:
                 r -= 1
         
         return area
+
+
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        # possible starts i where gas[i] >= cost[i]
+        def isValidRoute(i):
+            if gas[i] < cost[i]:
+                return False
+            currentGas = gas[i] - cost[i]
+            position = i + 1
+            while position !== i:
+                 
