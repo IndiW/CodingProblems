@@ -227,3 +227,32 @@ class Solution:
             position = i + 1
             while position !== i:
                  
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        n = len(gas)
+        total_surplus = 0
+        surplus = 0
+        start = 0
+
+        for i in range(n):
+            total_surplus += gas[i] - cost[i]
+            surplus += gas[i] - cost[i]
+
+
+            # if we hit negative when we get to i, then we will
+            # hit negative for every value from start to i
+            # thus, set next possible start to i+1
+            if surplus < 0:
+                surplus = 0
+                start = i + 1
+            
+        # surplus from k onwards needs to be more than the surplus from 0 to k
+        # since we need to circle back to k
+
+        # surplus[k:n] >= surplus[0:k]
+        # total surplus = surplus[0:k] + surplus[k:n]
+        # total_surplus - surplus[0:k] >= surplus[0:k]
+        # total_surplus >= 0
+        return -1 if total_surplus < 0 else start
+
+
