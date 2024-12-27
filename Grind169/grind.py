@@ -256,3 +256,22 @@ class Solution:
         return -1 if total_surplus < 0 else start
 
 
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nums = set(nums)
+
+        ret = 0
+
+        for num in nums:
+            # only check min values
+            if num-1 not in nums:
+                nex = num + 1
+                while nex in nums:
+                    nex += 1
+                ret = max(ret, nex-num)
+        return ret
+
+
+        
+
+
