@@ -314,51 +314,34 @@ class Solution:
         # reverse entire array
         reverse(nums, 0, len(nums) - 1)
         
+
 class Solution:
-    def rotate(self, nums: List[int], k: int) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
+    def findMaxLength(self, nums: List[int]) -> int:
+        count = 0
+        max_len = 0
 
-        '''
-        # O(n) space, O(n) time
-        k = k % len(nums)
-        copy = nums[::]
+        # the longest arr would be from 0 to the end
+        # index 0 has equal zeros and ones
+        table = {0:0}
 
-        for i in range(len(nums)):
-            if k + i >= len(nums):
-                nums[i+k-len(nums)] = copy[i]
+        for i, num in enumerate(nums):
+            if num == 0:
+                count -= 1
             else:
-                nums[i+k] = copy[i]
-        '''
-
-        def reverse(nums, i, j):
-            left = i
-            right = j
-            while left < right:
-                temp = nums[left]
-                nums[left] = nums[right]
-                nums[right] = temp
-                left += 1
-                right -= 1
+                count += 1
+            
+            if count in table:
+                max_len = max(max_len, i+1 - table[count])
+            else:
+                # e.g. [0,1] should be len 2
+                # if we just use i, we'd be 1 since we're 0 indexed
+                # thus increment by 1
+                table[count] = i+1
         
-        k = k % len(nums)
-        # partition is where first and last element meet
-        # each rotation, we take last element and move to front
-        # k rotations means we move last k elements to front
-        # partition at last k elements ie len(nums) - 1 - k
-        
-        # reverse from 0 to partition
-        reverse(nums, 0, len(nums) - 1 - k)
-        # reverse from partition to end
-        reverse(nums, len(nums) - k, len(nums) - 1)
-        
-        # reverse entire array
-        reverse(nums, 0, len(nums) - 1)
-        
+        return max_len
 
 
-        
+            
 
         
 
