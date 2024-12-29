@@ -257,6 +257,7 @@ class Solution:
 
 
 class Solution:
+    # should use union find. This is alternative solution
     def longestConsecutive(self, nums: List[int]) -> int:
         nums = set(nums)
 
@@ -271,6 +272,95 @@ class Solution:
                 ret = max(ret, nex-num)
         return ret
 
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+
+        '''
+        # O(n) space, O(n) time
+        k = k % len(nums)
+        copy = nums[::]
+
+        for i in range(len(nums)):
+            if k + i >= len(nums):
+                nums[i+k-len(nums)] = copy[i]
+            else:
+                nums[i+k] = copy[i]
+        '''
+
+        def reverse(nums, i, j):
+            left = i
+            right = j
+            while left < right:
+                temp = nums[left]
+                nums[left] = nums[right]
+                nums[right] = temp
+                left += 1
+                right -= 1
+        
+        k = k % len(nums)
+        # partition is where first and last element meet
+        # each rotation, we take last element and move to front
+        # k rotations means we move last k elements to front
+        # partition at last k elements ie len(nums) - 1 - k
+        
+        # reverse from 0 to partition
+        reverse(nums, 0, len(nums) - 1 - k)
+        # reverse from partition to end
+        reverse(nums, len(nums) - k, len(nums) - 1)
+        
+        # reverse entire array
+        reverse(nums, 0, len(nums) - 1)
+        
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+
+        '''
+        # O(n) space, O(n) time
+        k = k % len(nums)
+        copy = nums[::]
+
+        for i in range(len(nums)):
+            if k + i >= len(nums):
+                nums[i+k-len(nums)] = copy[i]
+            else:
+                nums[i+k] = copy[i]
+        '''
+
+        def reverse(nums, i, j):
+            left = i
+            right = j
+            while left < right:
+                temp = nums[left]
+                nums[left] = nums[right]
+                nums[right] = temp
+                left += 1
+                right -= 1
+        
+        k = k % len(nums)
+        # partition is where first and last element meet
+        # each rotation, we take last element and move to front
+        # k rotations means we move last k elements to front
+        # partition at last k elements ie len(nums) - 1 - k
+        
+        # reverse from 0 to partition
+        reverse(nums, 0, len(nums) - 1 - k)
+        # reverse from partition to end
+        reverse(nums, len(nums) - k, len(nums) - 1)
+        
+        # reverse entire array
+        reverse(nums, 0, len(nums) - 1)
+        
+
+
+        
+
+        
 
         
 
