@@ -342,6 +342,121 @@ class Solution:
 
 
             
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        # prefix_j - prefix_i = sum(arr[i:j]) = k
+        # k = prefix_j - prefix_i
+        # prefix_j - k = prefix_i
+        # [0,1,2,3]
+    
+        seen = {0:1}
+        prefix = 0
+        count = 0
+
+        for i, num in enumerate(nums):
+            prefix += num
+
+            if (prefix - k) in seen:
+                count += seen[prefix - k]
+            
+            if prefix in seen:
+                seen[prefix] += 1
+            else:
+                seen[prefix] = 1
+        
+        return count
+
+            
+
+
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        ret = sum(nums[:3])
+        diff = abs(target - ret)
+
+        for i in range(len(nums)-2):
+            l = i + 1
+            r = len(nums) - 1
+
+            while l < r:
+                summ = nums[i] + nums[l] + nums[r]
+                new_diff = abs(target - summ)
+                if new_diff < diff:
+                    diff = new_diff
+                    ret = summ
+                if summ > target:
+                    r -= 1
+                elif summ == target:
+                    return target
+                else:
+                    l += 1
+        
+        return ret
+        
+ 
+
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        # always take interval with earliest end time
+        # if x is the earliest end time, 
+        # rest of the intervals need to be greater than x
+        # if we choose another interval y
+        # and x <= y
+        # there are less intervals than can be included with y
+        # so going with earliest end time produces maximum capacity to 
+        # hold remaining intervals
+        # max capacity == minimum removals needed
+
+        current_earliest_end = float('-inf')
+        count = 0
+
+        # sort by end time
+        for start, end in sorted(intervals, key=lambda x: x[1]):
+            if start >= current_earliest_end:
+                # the interval is non overlapping
+                current_earliest_end = end
+            else:
+                # the interval overlaps, so we remove it
+                count += 1
+        return count
+
+
+import heapq
+
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        # use heap
+        # can get max in O(log(n))
+
+        # can add next element to heap via push
+        # need way of removing first element from heap
+        # need way of getting max without popping
+
+
+        ret = []
+        if k >= len(nums):
+            return [max(nums)]
+
+
+        # convert all to negative to use minheap
+        for i in range(len(nums)):
+            nums[i] *= -1
+
+        heap = nums[:k]
+
+        heapq.heapify(heap)
+        for i in range(k, len(nums)):
+            min_val = heapq.heappop(heap)
+            ret.append(min_val*-1)
+
+            heapq.heappush(heap, nums[i])
+    
+        return ret
+
+
+
+
 
         
 
