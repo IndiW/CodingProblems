@@ -426,6 +426,7 @@ import heapq
 
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        # TODO
         # use heap
         # can get max in O(log(n))
 
@@ -456,6 +457,37 @@ class Solution:
 
 
 
+class Solution:
+    def isValid(self, s: str) -> bool:
+        while s:
+            if '()' in s:
+                s = s.replace('()', '')
+            elif "{}" in s:
+                s = s.replace('{}', '')
+            elif '[]' in s:
+                s = s.replace('[]', '')
+            else:
+                break
+        
+        return len(s) == 0
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        map = { '(': ')', '{': '}', '[': ']' }
+
+        stack = []
+
+        for paren in s:
+            if paren in map:
+                stack.append(map[paren])
+            else:
+                if not stack:
+                    return False
+                closing = stack.pop(-1)
+                if closing != paren:
+                    return False
+        
+        return len(stack) == 0
 
 
         
