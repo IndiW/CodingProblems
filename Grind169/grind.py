@@ -525,6 +525,25 @@ class MyQueue:
 # param_3 = obj.peek()
 # param_4 = obj.empty()
 
+
+class Solution:
+    def backspaceCompare(self, s: str, t: str) -> bool:
+
+        def buildStack(s):
+            stack = []
+            for c in s:
+                if c == '#':
+                    if not stack:
+                        continue
+                    else:
+                        stack.pop()
+                else:
+                    stack.append(c)
+            return stack
+        
+        
+        return buildStack(s) == buildStack(t)
+
         
 
         
