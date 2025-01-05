@@ -598,6 +598,25 @@ class MinStack:
 # param_3 = obj.top()
 # param_4 = obj.getMin()
 
+
+
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        if len(temperatures) == 1:
+            return [0]
+        stack = []
+        ret = [0]*len(temperatures)
+
+        for i, temp in enumerate(temperatures):
+            while stack and stack[-1][1] < temp:
+                top = stack.pop()
+                ret[top[0]] = i-top[0]
+            stack.append([i, temp])
+    
+        
+        return ret
+
+
         
 
         
