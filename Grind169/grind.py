@@ -617,6 +617,42 @@ class Solution:
         return ret
 
 
+class Solution:
+    def decodeString(self, s: str) -> str:
+        # stack contains multiplier then previous string
+        stack = []
+        mult = 0
+        curString = ''
+
+        for c in s:
+            if c == '[':
+                # stop building mult
+                # this mult will be used for next string
+                stack.append((curString, mult))
+                curString = ''
+                mult = 0
+            elif c == ']':
+                # multiply our current string
+                # add new string to old string = new current string
+                (prevString, num) = stack.pop()
+                curString = prevString + num*curString
+            elif c.isdigit():
+                # build mult as we see it
+                mult = mult*10 + int(c)
+            else:
+                # build current string 
+                curString += c
+        return curString
+
+
+
+
+            
+                
+
+
+
+
         
 
         
