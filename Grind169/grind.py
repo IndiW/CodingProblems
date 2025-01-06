@@ -650,20 +650,24 @@ class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
 
         def willCollide(a, b):
+            # collision only in this scenario
             return a > 0 and b < 0
 
         stack = []
         for ast in asteroids:
             while stack and willCollide(stack[-1], ast):
+                # same size, so we lose the new asteroid and break
                 if stack[-1] == -ast:
                     stack.pop()
                     break
+                # bigger asteroid, so we remove last asteroid and keep going
                 elif abs(ast) > abs(stack[-1]):
                     stack.pop()
                     continue
+                # new asteroid gets destroyed. We break
                 elif abs(ast) < abs(stack[-1]):
                     break
-            else:
+            else: # no collision
                 stack.append(ast)
         return stack
                 
