@@ -646,7 +646,30 @@ class Solution:
 
 
 
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
 
+        def willCollide(a, b):
+            return a > 0 and b < 0
+
+        stack = []
+        for ast in asteroids:
+            while stack and willCollide(stack[-1], ast):
+                if stack[-1] == -ast:
+                    stack.pop()
+                    break
+                elif abs(ast) > abs(stack[-1]):
+                    stack.pop()
+                    continue
+                elif abs(ast) < abs(stack[-1]):
+                    break
+            else:
+                stack.append(ast)
+        return stack
+                
+
+                
+                
             
                 
 
