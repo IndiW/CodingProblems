@@ -672,6 +672,9 @@ class Solution:
         return stack
                 
 
+def simpleCalculator():
+    # todo
+
                 
                 
             
