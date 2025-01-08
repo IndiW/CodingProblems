@@ -672,8 +672,33 @@ class Solution:
         return stack
                 
 
-def simpleCalculator():
-    # todo
+class Solution:
+    def calculate(self, s: str) -> int:
+        if not s:
+            return 0
+        stack = [] # stores all sub computations
+        num = 0 # current number we're working with
+        sign = "+"
+
+        for i in range(len(s)):
+            if s[i].isdigit():
+                # build next number
+                num = num*10 + int(s[i])
+            # when we see a new sign, we deal with the current number we're working with
+            if s[i] in '+-*/' or i == len(s) - 1: # last value has to be added
+                if sign == '-':
+                    stack.append(-num)
+                elif sign == '+':
+                    stack.append(num)
+                elif sign == '*':
+                    stack.append(stack.pop()*num) # immediately multiply current number by last number seen because of BEDMAS
+                else:
+                    stack.append(int(stack.pop()/num)) # immediately divide last number seen by current number 
+                sign = s[i]
+                num = 0
+        return sum(stack)
+
+            
 
                 
                 
