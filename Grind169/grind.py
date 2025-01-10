@@ -699,7 +699,19 @@ class Solution:
         return sum(stack)
 
             
-
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        stack = [] # store index of heights
+        res = 0
+        for i in range(len(height)):
+            # if the last height in stack is less than the current height, water can be contained
+            while stack and height[stack[-1]] < height[i]:
+                bottom = stack[-1] # possible lowest height between current wall and last last wall seen
+                stack.pop()
+                if stack:
+                    res += (min(height[i], height[stack[-1]]) - height[bottom])*(i-stack[-1]-1)
+            stack.append(i) # add to stack if the height is decreasing.
+        return res
                 
                 
             
