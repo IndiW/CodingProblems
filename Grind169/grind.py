@@ -801,3 +801,39 @@ class Solution:
             slow = slow.next
         
         return slow
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        # find midpoint
+        # reverse 2nd half of list
+        # start from beginning and mid and compare values
+
+        slow = head
+        fast = head
+        prev = None
+
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        prev = slow # midpoint
+        nxt = slow.next
+        prev.next = None
+        while nxt:
+            tmp = nxt.next
+            nxt.next = prev
+            prev = nxt
+            nxt = tmp
+        fast, slow = head, prev
+        while slow:
+            if fast.val != slow.val: return False
+            fast = fast.next
+            slow = slow.next
+        return True
+
+
+
