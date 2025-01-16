@@ -836,4 +836,86 @@ class Solution:
         return True
 
 
+# wip
+class Node:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.next = None
 
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.cache = None
+        self.cacheSize = 0
+        self.capacity = capacity
+        
+
+    def get(self, key: int) -> int:
+        if not self.cache:
+            return -1
+        head = self.cache
+        if head and head.key == key:
+            return head.val
+        prev = Node(-1, -1)
+        prev.next = head
+        while head:
+            if head.key == key:
+                prev.next = head.next
+                head.next = self.cache
+                self.cache = head
+                return head.val
+            head = head.next
+            prev = prev.next
+        return -1
+        
+
+    def put(self, key: int, value: int) -> None:
+        head = self.cache
+
+        if not head:
+            self.cache = Node(key, value)
+            self.cacheSize += 1
+            return
+            
+        prev = Node(-1, -1)
+        prev.next = head
+
+        # first node is key
+        if head.key == key:
+            head.val = value
+            return
+
+        # key exists
+        if self.get(key) != -1:
+            while head:
+                if head.key == key:
+                    head.val = value
+                    prev.next = head.next
+                    head.next = self.cache
+                    self.cache = head
+                    return
+                head = head.next
+                prev = prev.next
+        else: # key doesnt exist
+            # room in cache
+            if self.cacheSize < self.capacity:
+                while head and head.next:
+                    head = head.next
+                head.next = Node(key, value)
+                self.cacheSize += 1
+            else: # no room in cache. Remove LRU
+                while head and head.next and head.next.next:
+                    head = head.next
+                head.next = Node(key, value)
+        
+            
+
+
+        
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
