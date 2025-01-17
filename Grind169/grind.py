@@ -846,68 +846,45 @@ class Node:
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.cache = None
+        self.cache = []
         self.cacheSize = 0
         self.capacity = capacity
+    
+    def moveNodeToFront(self, i):
+        node = self.cache.pop(i)
+        self.cache = [node] + self.cache
+        return node
         
 
     def get(self, key: int) -> int:
-        if not self.cache:
-            return -1
-        head = self.cache
-        if head and head.key == key:
-            return head.val
-        prev = Node(-1, -1)
-        prev.next = head
-        while head:
-            if head.key == key:
-                prev.next = head.next
-                head.next = self.cache
-                self.cache = head
-                return head.val
-            head = head.next
-            prev = prev.next
+        for i in range(len(self.cache)):
+            if self.cache[i].key == key:
+                node = self.moveNodeToFront(i)
+                return node.val
         return -1
+
+        
         
 
     def put(self, key: int, value: int) -> None:
-        head = self.cache
+        for i in range(len(self.cache)):
+            if self.cache[i].key == key:
+                self.moveNodeToFront(i)
+                self.cache[0].value = value
+                return
+        
+        if len(self.cache) == self.capacity:
+            self.cache.pop()
+        else:
+            self.capacity += 1
+        
+        self.cache = [Node(key, value)] + self.cache
 
-        if not head:
-            self.cache = Node(key, value)
-            self.cacheSize += 1
-            return
+
             
-        prev = Node(-1, -1)
-        prev.next = head
+        
 
-        # first node is key
-        if head.key == key:
-            head.val = value
-            return
-
-        # key exists
-        if self.get(key) != -1:
-            while head:
-                if head.key == key:
-                    head.val = value
-                    prev.next = head.next
-                    head.next = self.cache
-                    self.cache = head
-                    return
-                head = head.next
-                prev = prev.next
-        else: # key doesnt exist
-            # room in cache
-            if self.cacheSize < self.capacity:
-                while head and head.next:
-                    head = head.next
-                head.next = Node(key, value)
-                self.cacheSize += 1
-            else: # no room in cache. Remove LRU
-                while head and head.next and head.next.next:
-                    head = head.next
-                head.next = Node(key, value)
+        
         
             
 
