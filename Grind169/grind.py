@@ -840,45 +840,73 @@ class Solution:
 class Node:
     def __init__(self, key, val):
         self.key = key
-        self.val = val
+        self.value = val
         self.next = None
+        self.prev = None
 
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.cache = []
-        self.cacheSize = 0
         self.capacity = capacity
+        self.dict = {}
+        self.head = Node(0, 0) # head is always a dummy node
+        self.tail = Node(0,0) # tail is always a dummy node
+        self.head.next = self.tail
+        self.tail.prev = self.head
     
-    def moveNodeToFront(self, i):
-        node = self.cache.pop(i)
-        self.cache = [node] + self.cache
-        return node
         
-
     def get(self, key: int) -> int:
-        for i in range(len(self.cache)):
-            if self.cache[i].key == key:
-                node = self.moveNodeToFront(i)
-                return node.val
+        if key in self.dict:
+            node = self.dict[key]
+            self._remove(node)
+            self._add(node) # adds to the end 
+            return node.value
         return -1
 
         
+    def put(self, key: int, value: int) -> None:
+        if key in self.dict:
+            self._remove(self.dict[key])
+        node = Node(key, value)
+        self._add(node)
+        self.dict[key] = node
+        if len(self.dict) > self.capacity:
+            node = self.head.next
+            self._remove(node)
+            del self.dict[node.key]
+        
+    
+    def _remove(self, node):
+        # remove a node by changing where the prev node and next node point to
+        p = node.prev
+        n = node.next
+        p.next = n
+        n.prev = p
+    
+    # adds node to end of LL
+    def _add(self, node):
+        p = self.tail.prev # the tail is a dummy node. We get 1 before that - the 'last' node
+        p.next = node # point the last node to the new node
+        self.tail.prev = node # the tail dummy points to the new node
+        node.prev = p # the new node's previous points to the 'last' node
+        node.next = self.tail # the new nodes next is the dummy tail
+
+
+            
         
 
-    def put(self, key: int, value: int) -> None:
-        for i in range(len(self.cache)):
-            if self.cache[i].key == key:
-                self.moveNodeToFront(i)
-                self.cache[0].value = value
-                return
         
-        if len(self.cache) == self.capacity:
-            self.cache.pop()
-        else:
-            self.capacity += 1
         
-        self.cache = [Node(key, value)] + self.cache
+            
+
+
+        
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
 
 
             
