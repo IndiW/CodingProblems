@@ -948,3 +948,30 @@ class Solution:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head:
+            return head
+        dummy = ListNode(0)
+        dummy.next = head
+        curr = dummy
+
+        while curr.next and curr.next.next:
+            first = curr.next
+            second = curr.next.next
+            curr.next = second
+            first.next = second.next
+            second.next = first
+            curr = curr.next.next
+        return dummy.next
+
+
+
+        
+
