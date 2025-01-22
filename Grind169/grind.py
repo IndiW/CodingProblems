@@ -975,3 +975,106 @@ class Solution:
 
         
 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        
+        odd = oddstart = head
+        even = evenstart = head.next
+
+        while even and even.next:
+            nextodd = even.next
+            nexteven = even.next.next
+
+            odd.next = nextodd
+            even.next = nexteven
+
+            odd = nextodd
+            even = nexteven
+        
+        odd.next = evenstart
+
+        return oddstart
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        if not l1 or not l2:
+            return l1 or l2
+
+        l1head = l1
+        l2head = l2
+
+        while l1head and l2head:
+            l1head = l1head.next
+            l2head = l2head.next
+        
+        if not l1head:
+            longer = l2
+            shorter = l1
+        else:
+            longer = l1
+            shorter = l2
+        
+        prev = ListNode(0)
+        prev.next = longer
+        ret = longer
+
+        carry = 0
+        while shorter:
+            s = shorter.val + longer.val + carry
+            if s >= 10:
+                carry = 1
+                longer.val = s - 10
+            else:
+                carry = 0
+                longer.val = s
+            longer = longer.next
+            shorter = shorter.next
+            prev = prev.next
+        
+        while carry and longer:
+            s = longer.val + carry
+            if s >= 10:
+                carry = 1
+                longer.val = s - 10
+            else:
+                carry = 0
+                longer.val = s
+            longer = longer.next
+            prev = prev.next
+        
+        if carry:
+            prev.next = ListNode(1)
+    
+        return ret
+        
+
+        
+
+        
+
+
+
+            
+            
+
+
+
+
+
+
+
+
+
