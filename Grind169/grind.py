@@ -1107,6 +1107,54 @@ class Solution:
             
             
 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        if not head or not head.next:
+            return head
+
+        # find midpoint
+        slow = fast = head
+        
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next        
+
+        # curr is 2nd half of list
+        # reverse mid
+
+        prev = None
+        curr = slow.next
+
+        while curr:
+            tmp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = tmp
+        
+        slow.next = None
+        
+        # merge lists. Crisscross applesauce with changing pointer
+        head1 = head
+        head2 = prev
+
+        while head2:
+            tmp = head1.next
+            head1.next = head2
+            head1 = head2
+            head2 = tmp
+        
+        
+
+
+        
 
 
 
