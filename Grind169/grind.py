@@ -1155,6 +1155,72 @@ class Solution:
 
 
         
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+
+        def reverseList(head):
+            prev = None
+            curr = head
+            while curr:
+                tmp = curr.next
+                curr.next = prev
+                prev = curr
+                curr = tmp
+            return prev
+            
+
+        if k == 1:
+            return head
+
+        nodes = [head]
+        dummy = ListNode(0)
+        dummy.next = head
+        count = k
+        remaining = None
+
+
+        # find each group of k nodes
+
+        while dummy and dummy.next:
+            start = dummy.next
+            for i in range(k):
+                if not dummy:
+                    break
+                dummy = dummy.next
+            if not dummy:
+                remaining = start
+                break
+            nodes.append(start)
+            tmp = dummy.next
+            dummy.next = None
+            dummy = ListNode(0)
+            dummy.next = tmp
+
+        new_starts = []
+        for i, node in enumerate(nodes):
+            new_starts.append(reverseList(node))
+            
+        for i in range(len(nodes)-1):
+            nodes[i].next = new_starts[i+1]
+        
+        nodes[-1].next = remaining
+
+        return new_starts[0]
+            
+
+
+    
+
+
+
+            
 
 
 
