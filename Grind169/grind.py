@@ -1300,3 +1300,22 @@ class Solution:
         if len(seen) == 0:
             return len(s)
         return len(s) - len(seen) + 1
+
+
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        ans=""
+
+        sorted_s = sorted(strs) # lexographic sort
+        first = sorted_s[0]
+        last = sorted_s[-1]
+
+        for i in range(min(len(first), len(last))):
+            if first[i] != last[i]:
+                return ans
+            ans += first[i]
+        
+        return ans
+
+
+        
