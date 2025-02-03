@@ -1335,3 +1335,34 @@ class Solution:
         
         return longest
 
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        longest = 0
+        start = 0
+
+        for i in range(len(s)):
+            # i is the center of new potential palin
+            right = i
+
+            # get all equal characters 
+            while right < len(s) and s[i] == s[right]:
+                right += 1
+            
+            left = i - 1
+
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                left -= 1
+                right += 1
+            
+            if right - left - 1 > longest:
+                longest = right - left - 1
+                start = left + 1 # because above loop breaks when we find unequal or go out of bounds
+            
+        return s[start:start+longest]
+            
+
+            
+
+            
+
+
