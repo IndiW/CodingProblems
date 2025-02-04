@@ -1361,6 +1361,23 @@ class Solution:
         return s[start:start+longest]
             
 
+
+# todo optimize
+from collections import Counter
+
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        org = Counter(p)
+        n = len(p)
+        ret = []
+
+        for i in range(len(s) - n + 1):
+            sub = s[i:i+n]
+            new = Counter(sub)
+            if org == new:
+                ret.append(i)
+        
+        return ret
             
 
             
