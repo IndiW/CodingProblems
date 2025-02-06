@@ -1383,3 +1383,26 @@ class Solution:
             
 
 
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        dic = {}
+
+        def getAnagramKey(s):
+            key = [0]*26
+
+            for c in s:
+                key[ord(c) - ord('a')] += 1
+            
+            return tuple(key)
+
+
+        for s in strs:
+            key = getAnagramKey(s)
+            if key in dic:
+                dic[key].append(s)
+            else:
+                dic[key] = [s]
+        
+        return list(dic.values())
+
+
