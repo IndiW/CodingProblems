@@ -1406,3 +1406,27 @@ class Solution:
         return list(dic.values())
 
 
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        # sliding window
+        # longest substring = substring with x same characters + k different characters
+        seen = {}
+        longest = 0
+
+        l = 0
+        for r in range(len(s)):
+            seen[s[r]] = seen.get(s[r], 0) + 1
+            total_seen = seen.values()
+
+            while sum(total_seen) - max(total_seen) > k:
+                seen[s[l]] -= 1
+                l += 1
+            
+            longest = max(longest, r - l + 1)
+        
+        return longest
+        
+            
+
+
+
