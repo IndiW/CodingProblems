@@ -1428,5 +1428,30 @@ class Solution:
         
             
 
+import functools
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        # Convert each integer to a string
+        num_strings = [str(num) for num in nums]
 
+        def string_compare(a, b):
+            ab = a + b
+            ba = b + a
+
+            if ab > ba:
+                return 1
+            elif ab < ba:
+                return -1
+            else:
+                return 0
+
+        # Sort strings based on concatenated values
+        num_strings.sort(key=functools.cmp_to_key(string_compare), reverse=True)
+
+        # Handle the case where the largest number is zero
+        if num_strings[0] == "0":
+            return "0"
+
+        # Concatenate sorted strings to form the largest number
+        return "".join(num_strings)
 
