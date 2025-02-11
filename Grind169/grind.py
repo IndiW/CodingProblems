@@ -1455,11 +1455,14 @@ class Solution:
         # Concatenate sorted strings to form the largest number
         return "".join(num_strings)
 
+
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
+        # t is always shorter
         if len(s) < len(t):
             return ""
         
+        # track counts in shorter string
         char_count = defaultdict(int)
         for ch in t:
             char_count[ch] += 1
@@ -1473,17 +1476,20 @@ class Solution:
                 target_chars_remaining -= 1
             char_count[ch] -= 1
 
+            # valid window
             if target_chars_remaining == 0:
-                while True:
+                while True: # move left side of window conditionally
                     char_at_start = s[start_index]
                     if char_count[char_at_start] == 0:
                         break
                     char_count[char_at_start] += 1
                     start_index += 1
                 
+                # update min window
                 if end_index - start_index < min_window[1] - min_window[0]:
                     min_window = (start_index, end_index)
                 
+                # move left side of window while we can
                 char_count[s[start_index]] += 1
                 target_chars_remaining += 1
                 start_index += 1
