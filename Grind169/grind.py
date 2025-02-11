@@ -1496,3 +1496,39 @@ class Solution:
                 start_index += 1
         
         return "" if min_window[1] > len(s) else s[min_window[0]:min_window[1]+1]
+
+
+
+
+# Wip
+
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+
+        # { [word]: [array of indexes where word exists] }
+        seen = {}
+        for i in range(len(words)):
+            if words[i] in seen:
+                seen[words[i]].append(i)
+            else:
+                seen[words[i]] = [i]
+
+        # check if reverse of word is in seen
+        # or if reversed substring of word is in seen
+        ret = []
+
+        for i, word in enumerate(words):
+            rev_word = "".join(reversed(word))
+            if rev_word in seen:
+                for ind in seen[rev_word]:
+                    if i == ind: continue
+                    ret.append([i, ind])
+                    # ret.append([ind, i]) # optimization
+            for j in range(len(word)):
+                rev_sub = rev_word[:j]
+                if rev_sub in seen:
+                    for ind in seen[rev_sub]:
+                        if i == ind: continue
+                        ret.append([ind, i])
+    
+        return ret
