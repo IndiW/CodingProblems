@@ -1455,7 +1455,6 @@ class Solution:
         # Concatenate sorted strings to form the largest number
         return "".join(num_strings)
 
-
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
         # t is always shorter
@@ -1467,11 +1466,12 @@ class Solution:
         for ch in t:
             char_count[ch] += 1
         
-        target_chars_remaining = len(t)
-        min_window = (0, float("inf"))
+        target_chars_remaining = len(t) # needed to know when we have a valid window
+        min_window = (0, float("inf")) 
         start_index = 0
 
         for end_index, ch in enumerate(s):
+            # positive values in char_count means ch is required
             if char_count[ch] > 0:
                 target_chars_remaining -= 1
             char_count[ch] -= 1
@@ -1480,8 +1480,9 @@ class Solution:
             if target_chars_remaining == 0:
                 while True: # move left side of window conditionally
                     char_at_start = s[start_index]
-                    if char_count[char_at_start] == 0:
+                    if char_count[char_at_start] == 0: # exit loop because we need this char
                         break
+                    # otherwise we don't need the char and we can shrink window
                     char_count[char_at_start] += 1
                     start_index += 1
                 
