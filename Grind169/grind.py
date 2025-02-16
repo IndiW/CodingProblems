@@ -1565,18 +1565,20 @@ class Solution:
 #         self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        def getDepth(node):
-            if not node:
-                return 0
-            
-            return max(getDepth(node.left), getDepth(node.right)) + 1
-        
+        return self.dfs(root) != -1
+    
+    def dfs(self, root):
         if not root:
-            return True
+            return 0
         
-        left = getDepth(root.left)
-        right = getDepth(root.right)
+        left = self.dfs(root.left)
+        if left == -1: return -1
+        right = self.dfs(root.right)
+        if right == -1: return -1
 
-        return abs(left - right) <= 1 and self.isBalanced(root.left) and self.isBalanced(root.right)
-        
+        if abs(left - right) > 1:
+            return -1
+
+        return max(left, right) + 1        
+
 
