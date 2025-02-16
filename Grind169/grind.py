@@ -1582,3 +1582,24 @@ class Solution:
         return max(left, right) + 1        
 
 
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def __init__(self):
+        self.diameter = 0
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        def maxLength(node):
+            if not node:
+                return 0
+            
+            left = maxLength(node.left)
+            right = maxLength(node.right)
+            self.diameter = max(self.diameter, left + right)
+            return 1 + max(left, right)
+        
+        maxLength(root)
+        return self.diameter
