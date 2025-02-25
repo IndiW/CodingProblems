@@ -1678,3 +1678,35 @@ class Solution:
         if root and subRoot:
             return root.val == subRoot.val and self.isSameTree(root.left, subRoot.left) and self.isSameTree(root.right, subRoot.right)
         return root is subRoot
+
+# can also construct a hash representing the subtree and looking for a matching hash ^
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+
+        q = [(root, 0)]
+        ret = [[]]
+
+        while q:
+            node, level = q.pop(0)
+            if level >= len(ret):
+                ret.append([])
+
+            ret[-1].append(node.val)
+            if node.left:
+                q.append((node.left, level+1))
+            if node.right:
+                q.append((node.right, level+1))
+
+        return ret 
+                
+
