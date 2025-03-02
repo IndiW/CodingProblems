@@ -1710,3 +1710,31 @@ class Solution:
         return ret 
                 
 
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        # since p and q are unique, we won't find the same one twice
+        if root == p or root == q:
+            return root
+        
+        left = None
+        right = None
+
+        if root.left:
+            left = self.lowestCommonAncestor(root.left, p, q)
+        if root.right:
+            right = self.lowestCommonAncestor(root.right, p, q)
+        
+        # we found a node in each subtree, so the common ancestor is the root
+        if left and right:
+            return root
+        
+        else:
+            # we found the nodes in one subtree, so return whichever subtree it was
+            return left or right
