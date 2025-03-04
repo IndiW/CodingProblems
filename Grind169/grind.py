@@ -1738,3 +1738,33 @@ class Solution:
         else:
             # we found the nodes in one subtree, so return whichever subtree it was
             return left or right
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        q = [(root, 0)]
+        levels = [[]]
+
+        while q:
+            node, level = q.pop(0)
+            
+            if node:
+                if level+1 > len(levels):
+                    levels.append([])
+                levels[-1].append(node)
+                q.append((node.left, level+1))
+                q.append((node.right, level+1))
+            
+        ret = []
+
+        for level in levels:
+            ret.append(level[-1].val)
+        
+        return ret
