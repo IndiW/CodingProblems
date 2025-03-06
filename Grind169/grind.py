@@ -1794,5 +1794,31 @@ class Solution:
 
 
 
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        ret = []
+
+        def path(node, s, currPath):            
+            if node:
+                newSum = s + node.val
+                newPath = currPath+[node.val]
+                if newSum == targetSum and not node.left and not node.right:
+                    ret.append(newPath)
+                    return
+                path(node.left, newSum, newPath)
+                path(node.right, newSum, newPath)
+        
+        path(root, 0, [])
+
+        return ret
+            
+
+            
 
 
