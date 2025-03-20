@@ -1869,6 +1869,32 @@ class Solution:
         
         return left
 
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        if not image:
+            return image
+        startColor = image[sr][sc]
+        
+        def dfs(x, y):
+            if x >= len(image) or x < 0 or y >= len(image[0]) or y < 0:
+                return
+            if image[x][y] == color:
+                return
+            
+            if image[x][y] != startColor:
+                return
+            
+            image[x][y] = color
+            dfs(x+1, y)
+            dfs(x-1, y)
+            dfs(x,y+1)
+            dfs(x, y-1)
+        
+        dfs(sr, sc)
+
+        return image
+            
+
 
 
 
