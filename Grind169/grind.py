@@ -1898,3 +1898,37 @@ class Solution:
 
 
 
+from collections import deque
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        rows = len(mat)
+        cols = len(mat[0])
+
+        def bfs(x, y):
+            q = deque()
+            q.append((x,y,0))
+            seen = set()
+            offsets = [(1,0), (0,1), (-1,0), (0,-1)]
+            while q:
+                x, y, d = q.popleft()
+                if mat[x][y] == 0:
+                    return d
+                seen.add((x,y))
+                for offset in offsets:
+                    newX, newY = x+offset[0], y+offset[1]
+
+                    if newX >= 0 and newX < rows and newY >= 0 and newY < cols and mat[newX][newY] not in seen:
+                        q.append((newX, newY, d+1))
+
+
+
+
+        for row in range(rows):
+            for col in range(cols):
+                if mat[row][col] == 1:
+                    mat[row][col] = bfs(row, col)
+        
+        return mat
+
+                
+
