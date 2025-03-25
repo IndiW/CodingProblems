@@ -1904,31 +1904,30 @@ class Solution:
         rows = len(mat)
         cols = len(mat[0])
 
-        def bfs(x, y):
-            q = deque()
-            q.append((x,y,0))
-            seen = set()
-            offsets = [(1,0), (0,1), (-1,0), (0,-1)]
-            while q:
-                x, y, d = q.popleft()
-                if mat[x][y] == 0:
-                    return d
-                seen.add((x,y))
-                for offset in offsets:
-                    newX, newY = x+offset[0], y+offset[1]
-
-                    if newX >= 0 and newX < rows and newY >= 0 and newY < cols and mat[newX][newY] not in seen:
-                        q.append((newX, newY, d+1))
-
-
-
+        q = deque()
+        seen = set()
 
         for row in range(rows):
             for col in range(cols):
-                if mat[row][col] == 1:
-                    mat[row][col] = bfs(row, col)
+                if mat[row][col] == 0:
+                    seen.add((row,col))
+                    q.append((row, col))
+        
+        while q:
+            x, y = q.popleft()
+
+            for offset in [(1,0), (-1,0), (0,1), (0,-1)]:
+                newX = offset[0] + x
+                newY = offset[1] + y
+
+                if newX >= 0 and newX < rows and newY >= 0 and newY < cols and (newX, newY) not in seen:
+                    seen.add((newX, newY))
+                    q.append((newX, newY))
+                    mat[newX][newY] = mat[x][y] + 1
         
         return mat
 
                 
+
+
 
