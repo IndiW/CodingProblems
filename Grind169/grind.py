@@ -1873,6 +1873,40 @@ class Solution:
         
 
         
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        self.result = 0
+        # { sum: frequency }
+        cache = { 0: 1 }
+
+        self.dfs(root, targetSum, 0, cache)
+        return self.result
+
+    
+    def dfs(self, node, target, currPathSum, cache):
+        if not node:
+            return
+        
+        currPathSum += node.val
+        oldPathSum = currPathSum - target
+
+        self.result += cache.get(oldPathSum, 0)
+        cache[currPathSum] = cache.get(currPathSum, 0) + 1
+
+        self.dfs(node.left, target, currPathSum, cache)
+        self.dfs(node.right, target, currPathSum, cache)
+
+        # we finished with this path, so we remove the current path sum (ie disregard this node for future)
+        cache[currPathSum] -= 1
+
+
+
 
 
 
@@ -1989,3 +2023,18 @@ class Solution:
 
 
 
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        arr = [0,1,2]
+        if n < 3:
+            return arr[n]
+        
+        prev = 2
+        prevprev = 1
+        curr = prev + prevprev
+        for i in range(3, n+1):
+            curr = prev + prevprev
+            prevprev = prev
+            prev = curr
+        
+        return curr
