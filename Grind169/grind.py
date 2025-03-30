@@ -2022,7 +2022,7 @@ class Solution:
                 
 
 
-
+# DP problems
 class Solution:
     def climbStairs(self, n: int) -> int:
         arr = [0,1,2]
@@ -2038,3 +2038,72 @@ class Solution:
             prev = curr
         
         return curr
+
+
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        # kadanes algorithm
+        # intuition: when building a sum, we either add the next number or ditch our current sum
+        # we would only ditch our current sum if our current sum + the next number is smaller than 
+        # just going with the next number.
+
+        if not nums:
+            return 0
+        
+        curr_sum = max_sum = nums[0]
+
+        for i in range(1, len(nums)):
+            curr_sum = max(nums[i], curr_sum + nums[i]) # tracks the largest total so far
+            max_sum = max(curr_sum, max_sum) # tracks all best totals we've seen
+        
+        return max_sum
+
+
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        
+        # dp[coins, amount] = min(dp(coins, amount-coin[0]), dp(coins, amount-coin[1]), ...)
+
+        if amount < 0:
+            return -1
+
+        dp = [0]
+
+        for am in range(1, amount+1):
+            if am in coins:
+                dp.append(1)
+            else:
+                min_coin = float('inf')
+                for coin in coins:
+                    if am - coin >= 0:
+                        min_coin = min(dp[am-coin] + 1, min_coin)
+                dp.append(min_coin)
+        
+        if dp[-1] == float('inf'):
+            return -1
+        
+        return dp[-1]
+                
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        ret = []
+        def backtrack(curr, seen):
+            # if current solution is valid, save it
+            if len(curr) == len(nums):
+                ret.append(curr)
+                return
+            
+            # for all choices
+            for num in nums:
+                # if valid choice
+                if num not in seen:
+                    # backtrack while including that choice
+                    seen.add(num)
+                    backtrack(curr + [num], seen)
+                    seen.remove(num)
+            
+        
+        backtrack([], set())
+
+        return ret
