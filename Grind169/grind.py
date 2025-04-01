@@ -2107,3 +2107,132 @@ class Solution:
         backtrack([], set())
 
         return ret
+
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        ret = [[]]
+
+        for num in nums:
+            for arr in ret[::-1]:
+                ret.append(arr + [num])
+        
+        return ret
+
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        map = {
+            '1': '',
+            '2': 'abc',
+            '3': 'def',
+            '4': 'ghi',
+            '5': 'jkl',
+            '6': 'mno',
+            '7': 'pqrs',
+            '8': 'tuv',
+            '9': 'wxyz'
+        }
+
+        if not digits:
+            return []
+
+        ret = []
+        
+        def backtrack(i, curr):
+            # if valid state, add to solution
+            if i >= len(digits):
+                ret.append(curr)
+                return
+            
+            s = map[digits[i]]
+            
+            # for all valid choices, include the choice (curr + c) and we continue to next digit (i+1)
+            for c in s:
+                backtrack(i+1, curr+c)
+        
+        backtrack(0, "")
+        return ret
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        
+        ret = []
+
+        def genPerms(curr, open, closed):
+            # state is valid
+            if len(curr) == n*2 and open == 0 and closed == 0:
+                ret.append(curr)
+                return
+            
+            # go through all choices
+            # either you add an open or add a closed
+            if open > 0:
+                genPerms(curr+'(', open-1, closed)
+            if open < closed:
+                genPerms(curr+')', open, closed-1)
+
+            
+            
+
+        genPerms("", n, n)
+
+        return ret
+
+
+class Solution:
+    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
+        
+        # create dict where each they key is
+        # the first letter of each word
+        # the value is the word
+        # we iterate through characters in s
+        # at each character, we take the words
+        # that start with that character
+        # remove the starting letter 
+        # and add them to their new key in the dict
+        # based on the first letter
+
+        d = defaultdict(list)
+        count = 0
+
+        for word in words:
+            d[word[0]].append(word)
+        
+        for c in s:
+            words_starting_with_c = d[c]
+            d[c] = []
+            for word in words_starting_with_c:
+                if len(word) == 1:
+                    count += 1
+                else:
+                    d[word[1]].append(word[1:])
+        
+        return count
+
+                
+
+class Solution:
+    def maxFrequency(self, nums: List[int], k: int) -> int:
+        # the numbers can have vals from 1-50
+        # find number of occurrences of each number
+        # 
+        original = nums.count(k)
+        max_gain = 0
+        for m in range(1, 51):
+            if m == k:
+                continue
+            curr = max_curr = 0
+            for num in nums:
+                if num == m:
+                    curr += 1
+                elif num == k:
+                     curr -= 1
+                curr = max(curr, 0) # ensure its positive and worth taking
+                # if negative, we 'ditch' this curr and restart it at 0
+                # this is how we consider subarrays
+                max_curr = max(max_curr, curr) # biggest sub array so far
+            max_gain = max(max_gain, max_curr) # max we can gain if we update number m
+        return original + max_gain
+
+
