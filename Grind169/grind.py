@@ -2285,5 +2285,39 @@ class Solution:
 
 
                 
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        # island = 1s surrounded by water
+        # count number of islands
+        # step through array
+        # if we see land, we bfs to visit all connected land
+        # visit by setting value to 2
+        # count each time new land is found
 
+        if not grid:
+            return 0
+
+        n = len(grid)
+        m = len(grid[0])
+        def markLand(x, y):
+            if x < 0 or x >= n or y < 0 or y >= m:
+                return 
+            if grid[x][y] == '0':
+                return 
             
+            grid[x][y] = '0'
+            for offset_x, offset_y in [(0,1), (1,0), (0,-1), (-1,0)]:
+                markLand(x+offset_x, y+offset_y)
+            return
+            
+
+
+        count = 0
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] == '1':
+                    markLand(i, j)
+                    count += 1
+        
+        return count
+
