@@ -2236,3 +2236,54 @@ class Solution:
         return original + max_gain
 
 
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # [a, b], b first, then a
+        # create a graph { course: [prereqs] }
+        # dfs on each graph node
+        # two sets for visited and visiting
+        # true if you can visit each node
+        # false if you hit cycle (visit a node you are visiting)
+
+        finished = set()
+        taking = set()
+
+        # { 1: [4], 2: [4], 3: [1, 2], 4: []}
+        courses = {}
+        for course, prereq in prerequisites:
+            if prereq not in courses:
+                courses[prereq] = []
+            if course in courses:
+                courses[course].append(prereq)
+            else:
+                courses[course] = [prereq]
+        
+
+        def dfs(prereqs: List[int]):
+            if not prereqs:
+                return True
+            ret = True
+            for prereq in prereqs:
+                if prereq in taking:
+                    return False
+                if prereq in finished:
+                    continue
+                taking.add(prereq)
+                ret = ret and dfs(courses[prereq])
+                taking.remove(prereq)
+                finished.add(prereq)
+            return ret
+    
+        ret = True
+        for course, prereqs in courses.items():
+            if course not in finished:
+                ret = ret and dfs(prereqs)
+                finished.add(course)
+        
+        return ret
+
+
+
+                
+
+            
